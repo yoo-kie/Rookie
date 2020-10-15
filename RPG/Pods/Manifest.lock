@@ -1,0 +1,26 @@
+PODS:
+  - BulletinBoard (4.1.2)
+  - Realm (5.3.6):
+    - Realm/Headers (= 5.3.6)
+  - Realm/Headers (5.3.6)
+  - RealmSwift (5.3.6):
+    - Realm (= 5.3.6)
+
+DEPENDENCIES:
+  - BulletinBoard
+  - RealmSwift
+
+SPEC REPOS:
+  trunk:
+    - BulletinBoard
+    - Realm
+    - RealmSwift
+
+SPEC CHECKSUMS:
+  BulletinBoard: 1c0cb191b6c6245d08f51bd2445f1e36414ec0ed
+  Realm: cd400dd7e5b5bb5c8ae9842eecd73792369e6ec0
+  RealmSwift: 99a16dbdee5d6dfb3d91d56088a9f8c15c0871d1
+
+PODFILE CHECKSUM: c2f4dbff2da79d5b71bc5f56c8d3c7665ef59478
+
+COCOAPODS: 1.9.0
