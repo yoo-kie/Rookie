@@ -134,9 +134,9 @@
 		AED91D4724D57AE300D91553 = {
 			isa = PBXGroup;
 			children = (
-				AED91D5224D57AE400D91553 /* RPG */,
-				AED91D6924D57AE900D91553 /* RPGTests */,
-				AED91D7424D57AE900D91553 /* RPGUITests */,
+				AED91D5224D57AE400D91553 /* Rookie */,
+				AED91D6924D57AE900D91553 /* RookieTests */,
+				AED91D7424D57AE900D91553 /* RookieUITests */,
 				AED91D5124D57AE300D91553 /* Products */,
 				4A01A7B90C42050420DA3B58 /* Pods */,
 				CBF43A3BBFBFEA593648F032 /* Frameworks */,
@@ -153,7 +153,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AED91D5224D57AE400D91553 /* RPG */ = {
+		AED91D5224D57AE400D91553 /* Rookie */ = {
 			isa = PBXGroup;
 			children = (
 				AE7721A224ECF637001BF4B6 /* Supporting Files */,
@@ -172,25 +172,25 @@
 				AEC310E025061F2B00B6D235 /* DetailCollectionViewCell.swift */,
 				AEC310E125061F2B00B6D235 /* DetailCollectionViewCell.xib */,
 			);
-			path = RPG;
+			path = Rookie;
 			sourceTree = "<group>";
 		};
-		AED91D6924D57AE900D91553 /* RPGTests */ = {
+		AED91D6924D57AE900D91553 /* RookieTests */ = {
 			isa = PBXGroup;
 			children = (
 				AED91D6A24D57AE900D91553 /* RPGTests.swift */,
 				AED91D6C24D57AE900D91553 /* Info.plist */,
 			);
-			path = RPGTests;
+			path = RookieTests;
 			sourceTree = "<group>";
 		};
-		AED91D7424D57AE900D91553 /* RPGUITests */ = {
+		AED91D7424D57AE900D91553 /* RookieUITests */ = {
 			isa = PBXGroup;
 			children = (
 				AED91D7524D57AE900D91553 /* RPGUITests.swift */,
 				AED91D7724D57AE900D91553 /* Info.plist */,
 			);
-			path = RPGUITests;
+			path = RookieUITests;
 			sourceTree = "<group>";
 		};
 		CBF43A3BBFBFEA593648F032 /* Frameworks */ = {
@@ -628,15 +628,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3JEGFD62GB;
-				INFOPLIST_FILE = "RPG/Supporting Files/Info.plist";
+				DEVELOPMENT_TEAM = QLJ3WFP2Z6;
+				INFOPLIST_FILE = "Rookie/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yookie.rookie;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.kbs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -649,15 +649,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3JEGFD62GB;
-				INFOPLIST_FILE = "RPG/Supporting Files/Info.plist";
+				DEVELOPMENT_TEAM = QLJ3WFP2Z6;
+				INFOPLIST_FILE = "Rookie/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yookie.rookie;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.kbs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
