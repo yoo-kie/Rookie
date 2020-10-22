@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class ViewController: UIViewController {
     
@@ -172,6 +173,7 @@ extension ViewController {
     }
     
     func updateProgressView() {
+        var imageName = "\(DBManager.shared.todayCharacter)_"
         let totalCount = DBManager.shared.selectTasksWithDate(self.today).count
         let doneCount = DBManager.shared.selectDoneTasksWithDate(self.today).count
         
@@ -180,23 +182,28 @@ extension ViewController {
         switch level {
         case 0..<1 :
             oneWordLabel.text = "오늘도 즐거운 하루가 될 거예요-!"
-            todayProgressImage.image = UIImage.init(named: "\(DBManager.shared.todayCharacter)_1")
+            imageName = imageName + "1"
+            todayProgressImage.image = UIImage.init(named: imageName)
             break
         case 1..<2 :
             oneWordLabel.text = "잘했어요! 으쌰으쌰-!"
-            todayProgressImage.image = UIImage.init(named: "\(DBManager.shared.todayCharacter)_2")
+            imageName = imageName + "2"
+            todayProgressImage.image = UIImage.init(named: imageName)
             break
         case 2..<3 :
             oneWordLabel.text = "훌륭한데요-?:)"
-            todayProgressImage.image = UIImage.init(named: "\(DBManager.shared.todayCharacter)_3")
+            imageName = imageName + "3"
+            todayProgressImage.image = UIImage.init(named: imageName)
             break
         case 3..<4 :
             oneWordLabel.text = "맛있는 거 먹으면서 푹 쉬어요!"
-            todayProgressImage.image = UIImage.init(named: "\(DBManager.shared.todayCharacter)_4")
+            imageName = imageName + "4"
+            todayProgressImage.image = UIImage.init(named: imageName)
             break
         case 4 :
             oneWordLabel.text = "오늘 하루도 수고했어요:)"
-            todayProgressImage.image = UIImage.init(named: "\(DBManager.shared.todayCharacter)_5")
+            imageName = imageName + "5"
+            todayProgressImage.image = UIImage.init(named: imageName)
             break
         default:
             print("no more level up")
@@ -207,6 +214,17 @@ extension ViewController {
         }
         
         self.todayProgressLabel.text = "\(doneCount)/\(totalCount)"
+        
+        // 위젯킷 사용은 iOS14 이상부터만
+        if #available(iOS 14.0, *) {
+            if let groupUserDafaults = UserDefaults(suiteName: "group.com.yookie.rookie") {
+                groupUserDafaults.setValue(doneCount, forKey: "doneCount")
+                groupUserDafaults.setValue(totalCount, forKey: "totalCount")
+                groupUserDafaults.setValue(imageName, forKey: "todayProgressImage")
+                
+                WidgetCenter.shared.reloadTimelines(ofKind: "RookieWidget")
+            }
+        }
     }
     
 }
