@@ -142,21 +142,31 @@ extension ViewController {
     
     func resetTodayCharacter(today: String, thisMonthDates: [String]) {
         var name = ""
+        var count: Int = 1
         
         switch thisMonthDates.count {
             case 0:
                 name = "뽀짝이"
+                count = 3
+                break
             case 1...10:
                 name = "뽀짝이"
+                count = 3
+                break
             case 11...20:
-                name = "뽀짝이"
+                name = "뽀록희"
+                count = 1
+                break
             case 21...31:
-                name = "뽀짝이"
+                name = "뽀록희"
+                count = 1
+                break
             default:
                 name = "뽀짝이"
+                count = 1
         }
         
-        let num = arc4random_uniform(3) + 1
+        let num = arc4random_uniform(UInt32(count)) + 1
         let dict = ["date" : today, "name" : "\(name)\(num)"]
         if let characterDict = UserDefaults.standard.dictionary(forKey: "character") {
             // 오늘 일자와 다르면
