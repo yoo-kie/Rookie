@@ -14,11 +14,21 @@ class ViewController: UIViewController {
     var today = "" // 오늘 날짜
     var mainMonth = "" // 현재 선택된 년월 ex) 2020.09
     var mainDates = [String]() // 현재 선택된 년월의 일자들 ex) 2020.09.26
+    var characterCollection = [String]()
     
     @IBOutlet var oneWordLabel: UILabel!
     @IBOutlet var todayProgressImage: UIImageView!
     @IBOutlet var todayProgressView: UIProgressView!
     @IBOutlet var todayProgressLabel: UILabel!
+    
+    @IBOutlet var characterCollectionView: UICollectionView! = {
+        let layout = UICollectionViewLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "characterCell")
+        
+        return cv
+    }()
     
     @IBOutlet var todayCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
@@ -41,7 +51,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 오늘 날짜 Navigation title 설정
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         
@@ -58,6 +67,10 @@ class ViewController: UIViewController {
             self.mainDates = dates
             self.resetTodayCharacter(today: self.today, thisMonthDates: dates)
         }
+        
+        characterCollectionView.delegate = self
+        characterCollectionView.dataSource = self
+        characterCollectionView.register(UINib(nibName: "CharacterCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "characterCell")
         
         todayCollectionView.delegate = self
         todayCollectionView.dataSource = self
@@ -147,22 +160,27 @@ extension ViewController {
         switch thisMonthDates.count {
             case 0:
                 name = "뽀짝이"
+                self.characterCollection = ["뽀짝이"]
                 count = 3
                 break
             case 1...10:
                 name = "뽀짝이"
+                self.characterCollection = ["뽀짝이"]
                 count = 3
                 break
             case 11...20:
                 name = "뽀록희"
+                self.characterCollection = ["뽀짝이", "뽀록희"]
                 count = 1
                 break
             case 21...31:
                 name = "뽀록희"
+                self.characterCollection = ["뽀짝이", "뽀록희"]
                 count = 1
                 break
             default:
                 name = "뽀짝이"
+                characterCollection = ["뽀짝이"]
                 count = 1
         }
         
@@ -242,11 +260,17 @@ extension ViewController {
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
+        if collectionView == self.characterCollectionView {
+            return CGSize(width: 50, height: 50)
+        } else {
+            return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.todayCollectionView {
+        if collectionView == self.characterCollectionView {
+            return self.characterCollection.count
+        } else if collectionView == self.todayCollectionView {
             if DBManager.shared.selectTasksWithDate(self.today).count == 0 {
                 self.todayCollectionView.isHidden = true
             } else {
@@ -266,7 +290,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.todayCollectionView {
+        if collectionView == self.characterCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "characterCell", for: indexPath) as! CharacterCollectionViewCell
+            cell.characterImageView.image = UIImage.init(named: self.characterCollection[indexPath.row])
+            
+            return cell
+        } else if collectionView == self.todayCollectionView {
             let todayTasks = DBManager.shared.selectTasksWithDate(self.today)
             
             let task = todayTasks[indexPath.row]
@@ -333,6 +362,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             }
             
             self.updateProgressView()
+            self.todayCollectionView.reloadData()
+            
+            // 루키루키
+            if doneYN == "Y" {
+                self.todayCollectionView.setContentOffset(.zero, animated: true)
+            }
         } else if collectionView == self.lastCollectionView {
             let cell = collectionView.cellForItem(at: indexPath) as! LastCollectionViewCell
             

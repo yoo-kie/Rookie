@@ -9,16 +9,20 @@
 import Foundation
 import RealmSwift
 
+
+// Realm 데이터를 관리하는 부분
+// 싱글톤으로 구성
+
 class DBManager {
     
     static let shared = DBManager()
      
-    var allMonths = [String]() // 월 단위
-    var allDates = [String]() // 일 단위
-    
-    var todayCharacter: String = "" // 오늘의 캐릭터
-    
     let realm = try! Realm()
+    
+    var allMonths = [String]()
+    var allDates = [String]()
+    
+    var todayCharacter: String = ""
     
     func incrementTaskID() -> Int {
         return (realm.objects(Tasks.self).max(ofProperty: "id") as Int? ?? 0) + 1
@@ -35,7 +39,10 @@ class DBManager {
     }
     
     func selectTasksWithDate(_ date: String) -> [Tasks] {
-        let result = realm.objects(Tasks.self).filter("date = '\(date)'").toArray(type: Tasks.self)
+        var result = realm.objects(Tasks.self).filter("date = '\(date)'").toArray(type: Tasks.self)
+        // 루키루키
+        result.sort { $0.done_yn < $1.done_yn }
+        
         return result
     }
     
@@ -73,7 +80,7 @@ class DBManager {
         }
     }
     
-    func initAllMonthsAndDates(){
+    func initAllMonthsAndDates() {
         let result = realm.objects(Tasks.self).distinct(by: ["date"])
         
         var dates = [String]()
@@ -86,10 +93,8 @@ class DBManager {
         formatter.dateFormat = "yyyy.MM.dd"
         let today = formatter.string(from: Date())
         
-        // 저장된 모든 요일
         allDates = dates.filter { $0 != today }.sorted().reversed()
         
-        // 월로 정리
         allMonths = Array(Set<String>(allDates.map {
             let end = $0.index($0.startIndex, offsetBy: 7)
             let dateSubstr = String($0[$0.startIndex..<end])
@@ -97,7 +102,7 @@ class DBManager {
         })).sorted().reversed()
     }
     
-    // 파라미터로 들어온 일자의 일자들 반환
+    // 파라미터로 들어온 월의 일자들 반환
     func initSelectedDates(_ month: String, completionHandler: @escaping ([String])->()) {
         var selectedDates = allDates.filter {
             let end = $0.index($0.startIndex, offsetBy: 7)
