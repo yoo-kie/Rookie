@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet var todayProgressImage: UIImageView!
     @IBOutlet var todayProgressView: UIProgressView!
     @IBOutlet var todayProgressLabel: UILabel!
+    @IBOutlet var mainDatesLabel: UILabel!
     
     @IBOutlet var characterCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
@@ -65,6 +66,7 @@ class ViewController: UIViewController {
         DBManager.shared.initSelectedDates(month) { (dates) in
             self.mainMonth = month
             self.mainDates = dates
+            self.mainDatesLabel.text = "\(self.mainDates.count)개"
             self.resetTodayCharacter(today: self.today, thisMonthDates: dates)
         }
         
@@ -116,6 +118,7 @@ class ViewController: UIViewController {
             let ok = UIAlertAction(title: "완료", style: .default) { (ok) in
                 DBManager.shared.initSelectedDates(self.mainMonth) { (dates) in
                     self.mainDates = dates
+                    self.mainDatesLabel.text = "\(self.mainDates.count)개"
                     self.lastCollectionView.reloadData()
                 }
             }

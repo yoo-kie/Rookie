@@ -60,6 +60,12 @@
                                                     <constraint firstAttribute="height" constant="3" id="VLX-aH-Kfv"/>
                                                 </constraints>
                                             </progressView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이번달 캐릭터 모음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWv-T8-rtS">
+                                                <rect key="frame" x="20" y="297.5" width="111.5" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uWV-ni-2So" userLabel="Character Collect View">
                                                 <rect key="frame" x="20" y="325.5" width="374" height="50"/>
                                                 <subviews>
@@ -207,16 +213,16 @@
                                                     <constraint firstItem="Qga-R1-Y0t" firstAttribute="leading" secondItem="l62-Fb-96E" secondAttribute="leading" id="xyZ-nV-pjR"/>
                                                 </constraints>
                                             </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y6b-hO-eHL">
+                                                <rect key="frame" x="134" y="612.5" width="22" height="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <color key="textColor" systemColor="systemGrayColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="©yookie" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4p-cu-mMD">
                                                 <rect key="frame" x="180" y="831.5" width="54" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" systemColor="systemGrayColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이번달 캐릭터 모음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWv-T8-rtS">
-                                                <rect key="frame" x="20" y="297.5" width="111.5" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -226,7 +232,6 @@
                                             <constraint firstItem="WWv-T8-rtS" firstAttribute="top" secondItem="2Om-CN-fQF" secondAttribute="bottom" constant="20" id="1ry-kJ-JZo"/>
                                             <constraint firstAttribute="trailing" secondItem="AG8-on-q7e" secondAttribute="trailing" constant="20" id="9iR-3I-3Mw"/>
                                             <constraint firstItem="DkF-na-96V" firstAttribute="leading" secondItem="nUg-EQ-Ldw" secondAttribute="leading" id="AC6-tq-TkG"/>
-                                            <constraint firstItem="AA8-qQ-6AR" firstAttribute="leading" secondItem="DkF-na-96V" secondAttribute="trailing" constant="5" id="BAP-Y1-qdQ"/>
                                             <constraint firstAttribute="bottom" secondItem="P4p-cu-mMD" secondAttribute="bottom" constant="15" id="EDJ-Tt-6hP"/>
                                             <constraint firstItem="n0e-TG-NKL" firstAttribute="leading" secondItem="2v5-KF-eqG" secondAttribute="trailing" constant="5" id="Gx8-re-tVF"/>
                                             <constraint firstAttribute="trailing" secondItem="l62-Fb-96E" secondAttribute="trailing" constant="20" id="HEW-gg-DdX"/>
@@ -240,9 +245,11 @@
                                             <constraint firstItem="yQT-55-7md" firstAttribute="centerX" secondItem="6Kk-35-Stl" secondAttribute="centerX" id="Tho-ig-ycM"/>
                                             <constraint firstItem="uWV-ni-2So" firstAttribute="leading" secondItem="nUg-EQ-Ldw" secondAttribute="leading" id="Ubm-QT-O6V"/>
                                             <constraint firstItem="AG8-on-q7e" firstAttribute="leading" secondItem="nUg-EQ-Ldw" secondAttribute="leading" id="ZFp-48-G9a"/>
+                                            <constraint firstItem="Y6b-hO-eHL" firstAttribute="leading" secondItem="AA8-qQ-6AR" secondAttribute="trailing" constant="5" id="aWn-8d-UhK"/>
                                             <constraint firstItem="WWv-T8-rtS" firstAttribute="leading" secondItem="nUg-EQ-Ldw" secondAttribute="leading" id="d0h-MC-Vvq"/>
                                             <constraint firstItem="n0e-TG-NKL" firstAttribute="centerY" secondItem="2v5-KF-eqG" secondAttribute="centerY" id="h18-iI-hz2"/>
                                             <constraint firstItem="l62-Fb-96E" firstAttribute="top" secondItem="DkF-na-96V" secondAttribute="bottom" constant="5" id="hg3-hg-Ot9"/>
+                                            <constraint firstItem="Y6b-hO-eHL" firstAttribute="centerY" secondItem="AA8-qQ-6AR" secondAttribute="centerY" id="ixq-TM-yHf"/>
                                             <constraint firstItem="l62-Fb-96E" firstAttribute="height" secondItem="AG8-on-q7e" secondAttribute="height" id="jjr-Mb-i1B"/>
                                             <constraint firstItem="nsh-gV-Dp9" firstAttribute="top" secondItem="yQT-55-7md" secondAttribute="bottom" constant="5" id="loL-dT-y2M"/>
                                             <constraint firstItem="2v5-KF-eqG" firstAttribute="centerY" secondItem="nUg-EQ-Ldw" secondAttribute="centerY" id="nQz-AC-L2R"/>
@@ -253,6 +260,7 @@
                                             <constraint firstItem="yQT-55-7md" firstAttribute="top" secondItem="6Kk-35-Stl" secondAttribute="top" constant="30" id="q1D-EZ-Ojv"/>
                                             <constraint firstItem="2Om-CN-fQF" firstAttribute="centerX" secondItem="6Kk-35-Stl" secondAttribute="centerX" id="rzw-eO-A42"/>
                                             <constraint firstItem="nUg-EQ-Ldw" firstAttribute="top" secondItem="uWV-ni-2So" secondAttribute="bottom" constant="15" id="tne-Zm-l2v"/>
+                                            <constraint firstItem="AA8-qQ-6AR" firstAttribute="leading" secondItem="DkF-na-96V" secondAttribute="trailing" constant="5" id="w2D-OC-XdV"/>
                                             <constraint firstItem="l62-Fb-96E" firstAttribute="leading" secondItem="DkF-na-96V" secondAttribute="leading" id="wen-CC-h9F"/>
                                         </constraints>
                                     </view>
@@ -295,6 +303,7 @@
                     <connections>
                         <outlet property="characterCollectionView" destination="QAf-l5-fqy" id="Fag-jQ-43u"/>
                         <outlet property="lastCollectionView" destination="Qga-R1-Y0t" id="JgE-uO-McA"/>
+                        <outlet property="mainDatesLabel" destination="Y6b-hO-eHL" id="AmS-YA-czW"/>
                         <outlet property="oneWordLabel" destination="yQT-55-7md" id="qod-Th-AcV"/>
                         <outlet property="todayCollectionView" destination="ObI-1E-6N5" id="PC8-v3-FAE"/>
                         <outlet property="todayProgressImage" destination="nsh-gV-Dp9" id="Wuy-I0-mcz"/>
