@@ -11,9 +11,9 @@ import WidgetKit
 
 class ViewController: UIViewController {
     
-    var today = "" // 오늘 날짜
-    var mainMonth = "" // 현재 선택된 년월 ex) 2020.09
-    var mainDates = [String]() // 현재 선택된 년월의 일자들 ex) 2020.09.26
+    var today = ""
+    var mainMonth = ""
+    var mainDates = [String]()
     var characterCollection = [String]()
     
     @IBOutlet var oneWordLabel: UILabel!
@@ -27,7 +27,6 @@ class ViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "characterCell")
-        
         return cv
     }()
     
@@ -36,7 +35,6 @@ class ViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: "todayCell")
-        
         return cv
     }()
     
@@ -45,18 +43,17 @@ class ViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(LastCollectionViewCell.self, forCellWithReuseIdentifier: "lastCell")
-        
         return cv
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9458019137, green: 0.8140015006, blue: 0.2600919008, alpha: 1)
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
-        
         self.today = formatter.string(from: Date())
-        
         self.navigationItem.title = self.today
         
         let endIndex = today.index(today.startIndex, offsetBy: 7)
@@ -128,14 +125,12 @@ class ViewController: UIViewController {
             
             alert.addAction(cancel)
             alert.addAction(ok)
-
             alert.view.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-            
             self.present(alert, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: nil, message: "지난 리스트가 없습니다", preferredStyle: .actionSheet)
-            if UIDevice.current.userInterfaceIdiom == .pad { // 디바이스 타입이 iPad일때
-                if let popoverController = alert.popoverPresentationController { // ActionSheet가 표현되는 위치를 저장해줍니다.
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                if let popoverController = alert.popoverPresentationController {
                     popoverController.sourceView = self.view
                     popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
                     popoverController.permittedArrowDirections = []
@@ -190,7 +185,6 @@ extension ViewController {
         let num = arc4random_uniform(UInt32(count)) + 1
         let dict = ["date" : today, "name" : "\(name)\(num)"]
         if let characterDict = UserDefaults.standard.dictionary(forKey: "character") {
-            // 오늘 일자와 다르면
             if characterDict["date"] as! String != today {
                 UserDefaults.standard.setValue(dict, forKey: "character")
             }
@@ -264,7 +258,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.characterCollectionView {
-            return CGSize(width: 50, height: 50)
+            return CGSize(width: 30, height: 30)
         } else {
             return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
         }
@@ -341,7 +335,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             return cell
         } else {
             let cell = UICollectionViewCell()
-            
             return cell
         }
     }
@@ -367,7 +360,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             self.updateProgressView()
             self.todayCollectionView.reloadData()
             
-            // 루키루키
             if doneYN == "Y" {
                 self.todayCollectionView.setContentOffset(.zero, animated: true)
             }

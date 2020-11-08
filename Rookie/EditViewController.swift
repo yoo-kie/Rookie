@@ -17,7 +17,6 @@ class EditViewController: UIViewController {
         super.viewDidLoad()
  
         self.navigationItem.title = editDate
-        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9458019137, green: 0.8140015006, blue: 0.2600919008, alpha: 1)
         
         editTableView.delegate = self
         editTableView.dataSource = self

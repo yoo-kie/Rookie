@@ -24,7 +24,6 @@ class DetailViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "detailCell")
-        
         return cv
     }()
     
