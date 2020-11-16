@@ -1,20 +1,21 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'RPG' do
+target 'Rookie' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for RPG
-  pod ‘RealmSwift’
+  # Pods for Rookie
+#  pod ‘RealmSwift’
+#  pod 'SwiftLint'
 
-  target 'RPGTests' do
+  target 'RookieTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
-  target 'RPGUITests' do
+  target 'RookieUITests' do
     # Pods for testing
   end
-
+ 
 end

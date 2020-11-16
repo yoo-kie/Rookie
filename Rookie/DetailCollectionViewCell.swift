@@ -1,6 +1,6 @@
 //
 //  DetailCollectionViewCell.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/09/07.
 //  Copyright © 2020 yookie. All rights reserved.

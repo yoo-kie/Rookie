@@ -1,6 +1,6 @@
 //
 //  DetailViewController.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/19.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -55,28 +55,23 @@ extension DetailViewController {
         let level = (4.0 &/ Float(totalCount)) * Float(doneCount)
         
         switch level {
-            case 0..<1 :
-                finishWordLabel.text = "Level 1"
-                detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_1")
-                break
-            case 1..<2 :
-                finishWordLabel.text = "Level 2"
-                detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_2")
-                break
-            case 2..<3 :
-                finishWordLabel.text = "Level 3"
-                detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_3")
-                break
-            case 3..<4 :
-                finishWordLabel.text = "Level 4"
-                detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_4")
-                break
-            case 4 :
-                finishWordLabel.text = "Final-!!!"
-                detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_5")
-                break
-            default:
-                print("no more level up")
+        case 0..<1 :
+            finishWordLabel.text = "Level 1"
+            detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_1")
+        case 1..<2 :
+            finishWordLabel.text = "Level 2"
+            detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_2")
+        case 2..<3 :
+            finishWordLabel.text = "Level 3"
+            detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_3")
+        case 3..<4 :
+            finishWordLabel.text = "Level 4"
+            detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_4")
+        case 4 :
+            finishWordLabel.text = "Final-!!!"
+            detailProgressImage.image = UIImage.init(named: "\(detailCharacter)_5")
+        default:
+            print("no more level up")
         }
         
         UIView.animate(withDuration: 1.0) {
@@ -103,7 +98,9 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         let title = task.title
         let doneYN = task.done_yn
             
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as! DetailCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
+            return DetailCollectionViewCell()
+        }
         cell.detailLabel.text = title
             
         if doneYN == "Y" {
@@ -122,7 +119,9 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         let id = task.id
         let doneYN = task.done_yn
         
-        let cell = collectionView.cellForItem(at: indexPath) as! DetailCollectionViewCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else {
+            return
+        }
             
         if doneYN == "N" {
             cell.detailLabel.textColor = .white

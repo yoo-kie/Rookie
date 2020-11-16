@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/01.
 //  Copyright © 2020 yookie. All rights reserved.

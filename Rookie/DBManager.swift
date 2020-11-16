@@ -1,6 +1,6 @@
 //
 //  DBManager.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/21.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -9,19 +9,21 @@
 import Foundation
 import RealmSwift
 
-
 // Realm 데이터를 관리하는 부분
 // 싱글톤으로 구성
 
 class DBManager {
-    
     static let shared = DBManager()
-     
-    let realm = try! Realm()
+    
+    var realm: Realm {
+        guard let realm = Realm.safeInit() else {
+            return self.realm
+        }
+        return realm
+    }
     
     var allMonths = [String]()
     var allDates = [String]()
-    
     var todayCharacter: String = ""
     
     func incrementTaskID() -> Int {
@@ -33,8 +35,8 @@ class DBManager {
         return result
     }
     
-    func selectTasksWithID(_ id: Int) -> Tasks {
-        let result = realm.objects(Tasks.self).filter("id = \(id)").toArray(type: Tasks.self)
+    func selectTasksWithID(_ idx: Int) -> Tasks {
+        let result = realm.objects(Tasks.self).filter("id = \(idx)").toArray(type: Tasks.self)
         return result.first!
     }
     
@@ -62,20 +64,20 @@ class DBManager {
     }
     
     func addTask(_ task: Tasks) {
-        try! realm.write {
+        realm.safeWrite {
             realm.add(task)
         }
     }
     
-    func deleteTaskWithID(_ id: Int) {
-        try! realm.write {
-            realm.delete(realm.objects(Tasks.self).filter("id = \(id)"))
+    func deleteTaskWithID(_ idx: Int) {
+        realm.safeWrite {
+            realm.delete(realm.objects(Tasks.self).filter("id = \(idx)"))
         }
     }
     
-    func updateTask(_ id: Int, _ done_yn: String) {
-        let task = self.selectTasksWithID(id)
-        try! realm.write {
+    func updateTask(_ idx: Int, _ done_yn: String) {
+        let task = self.selectTasksWithID(idx)
+        realm.safeWrite {
             task.done_yn = done_yn
         }
     }
@@ -103,7 +105,7 @@ class DBManager {
     }
     
     // 파라미터로 들어온 월의 일자들 반환
-    func initSelectedDates(_ month: String, completionHandler: @escaping ([String])->()) {
+    func initSelectedDates(_ month: String, completionHandler: @escaping ([String]) -> Void) {
         var selectedDates = allDates.filter {
             let end = $0.index($0.startIndex, offsetBy: 7)
             let substring = String($0[$0.startIndex..<end])
@@ -128,6 +130,29 @@ class Tasks: Object {
       return "id"
     }
     
+}
+
+extension Realm {
+    static func safeInit() -> Realm? {
+        do {
+            let realm = try Realm()
+            return realm
+        } catch {
+            print("Could not init Realm")
+        }
+        return nil
+    }
+
+    func safeWrite(_ block: () -> Void) {
+        do {
+            // Async safety, to prevent "Realm already in a write transaction" Exceptions
+            if !isInWriteTransaction {
+                try write(block)
+            }
+        } catch {
+            print("Could not write Realm")
+        }
+    }
 }
 
 extension Results {

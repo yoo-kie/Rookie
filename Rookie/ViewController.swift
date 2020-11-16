@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/01.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -24,26 +24,26 @@ class ViewController: UIViewController {
     
     @IBOutlet var characterCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "characterCell")
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "characterCell")
+        return collectionView
     }()
     
     @IBOutlet var todayCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: "todayCell")
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(TodayCollectionViewCell.self, forCellWithReuseIdentifier: "todayCell")
+        return collectionView
     }()
     
     @IBOutlet var lastCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(LastCollectionViewCell.self, forCellWithReuseIdentifier: "lastCell")
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(LastCollectionViewCell.self, forCellWithReuseIdentifier: "lastCell")
+        return collectionView
     }()
     
     override func viewDidLoad() {
@@ -69,15 +69,18 @@ class ViewController: UIViewController {
         
         characterCollectionView.delegate = self
         characterCollectionView.dataSource = self
-        characterCollectionView.register(UINib(nibName: "CharacterCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "characterCell")
+        characterCollectionView.register(UINib(nibName: "CharacterCollectionViewCell", bundle: nil),
+                                         forCellWithReuseIdentifier: "characterCell")
         
         todayCollectionView.delegate = self
         todayCollectionView.dataSource = self
-        todayCollectionView.register(UINib(nibName: "TodayCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayCell")
+        todayCollectionView.register(UINib(nibName: "TodayCollectionViewCell", bundle: nil),
+                                     forCellWithReuseIdentifier: "todayCell")
         
         lastCollectionView.delegate = self
         lastCollectionView.dataSource = self
-        lastCollectionView.register(UINib(nibName: "LastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastCell")
+        lastCollectionView.register(UINib(nibName: "LastCollectionViewCell", bundle: nil),
+                                    forCellWithReuseIdentifier: "lastCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,7 +115,7 @@ class ViewController: UIViewController {
                 pickerView.selectRow(0, inComponent: 0, animated: true)
             }
             
-            let ok = UIAlertAction(title: "완료", style: .default) { (ok) in
+            let ok = UIAlertAction(title: "완료", style: .default) { _ in
                 DBManager.shared.initSelectedDates(self.mainMonth) { (dates) in
                     self.mainDates = dates
                     self.mainDatesLabel.text = "\(self.mainDates.count)개"
@@ -120,7 +123,7 @@ class ViewController: UIViewController {
                 }
             }
 
-            let cancel = UIAlertAction(title: "취소", style: .cancel) { (cancel) in
+            let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
             }
             
             alert.addAction(cancel)
@@ -132,7 +135,11 @@ class ViewController: UIViewController {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 if let popoverController = alert.popoverPresentationController {
                     popoverController.sourceView = self.view
-                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX,
+                                                          y: self.view.bounds.midY,
+                                                          width: 0,
+                                                          height: 0)
+                    
                     popoverController.permittedArrowDirections = []
                     self.present(alert, animated: true, completion: nil)
                 }
@@ -141,7 +148,7 @@ class ViewController: UIViewController {
             }
             
             let when = DispatchTime.now() + 1.0
-            DispatchQueue.main.asyncAfter(deadline: when){
+            DispatchQueue.main.asyncAfter(deadline: when) {
               alert.dismiss(animated: true, completion: nil)
             }
         }
@@ -156,36 +163,36 @@ extension ViewController {
         var count: Int = 1
         
         switch thisMonthDates.count {
-            case 0:
-                name = "뽀짝이"
-                self.characterCollection = ["뽀짝이"]
-                count = 3
-                break
-            case 1...10:
-                name = "뽀짝이"
-                self.characterCollection = ["뽀짝이"]
-                count = 3
-                break
-            case 11...20:
-                name = "뽀록희"
-                self.characterCollection = ["뽀짝이", "뽀록희"]
-                count = 1
-                break
-            case 21...31:
-                name = "뽀록희"
-                self.characterCollection = ["뽀짝이", "뽀록희"]
-                count = 1
-                break
-            default:
-                name = "뽀짝이"
-                characterCollection = ["뽀짝이"]
-                count = 1
+        case 0:
+            name = "뽀짝이"
+            self.characterCollection = ["뽀짝이"]
+            count = 3
+        case 1...10:
+            name = "뽀짝이"
+            self.characterCollection = ["뽀짝이"]
+            count = 3
+        case 11...20:
+            name = "뽀록희"
+            self.characterCollection = ["뽀짝이", "뽀록희"]
+            count = 1
+        case 21...31:
+            name = "뽀록희"
+            self.characterCollection = ["뽀짝이", "뽀록희"]
+            count = 1
+        default:
+            name = "뽀짝이"
+            characterCollection = ["뽀짝이"]
+            count = 1
         }
         
         let num = arc4random_uniform(UInt32(count)) + 1
-        let dict = ["date" : today, "name" : "\(name)\(num)"]
+        let dict = ["date": today, "name": "\(name)\(num)"]
         if let characterDict = UserDefaults.standard.dictionary(forKey: "character") {
-            if characterDict["date"] as! String != today {
+            guard let date = characterDict["date"] as? String else {
+                return
+            }
+            
+            if date != today {
                 UserDefaults.standard.setValue(dict, forKey: "character")
             }
         } else {
@@ -193,7 +200,11 @@ extension ViewController {
         }
         
         if let characterDict = UserDefaults.standard.dictionary(forKey: "character") {
-            DBManager.shared.todayCharacter = characterDict["name"] as! String
+            guard let name = characterDict["name"] as? String else {
+                return
+            }
+            
+            DBManager.shared.todayCharacter = name
         }
     }
     
@@ -207,29 +218,24 @@ extension ViewController {
         switch level {
         case 0..<1 :
             oneWordLabel.text = "오늘도 즐거운 하루가 될 거예요-!"
-            imageName = imageName + "1"
+            imageName += "1"
             todayProgressImage.image = UIImage.init(named: imageName)
-            break
         case 1..<2 :
             oneWordLabel.text = "잘했어요! 으쌰으쌰-!"
-            imageName = imageName + "2"
+            imageName += "2"
             todayProgressImage.image = UIImage.init(named: imageName)
-            break
         case 2..<3 :
             oneWordLabel.text = "훌륭한데요-?:)"
-            imageName = imageName + "3"
+            imageName += "3"
             todayProgressImage.image = UIImage.init(named: imageName)
-            break
         case 3..<4 :
             oneWordLabel.text = "맛있는 거 먹으면서 푹 쉬어요!"
-            imageName = imageName + "4"
+            imageName += "4"
             todayProgressImage.image = UIImage.init(named: imageName)
-            break
         case 4 :
             oneWordLabel.text = "오늘 하루도 수고했어요:)"
-            imageName = imageName + "5"
+            imageName += "5"
             todayProgressImage.image = UIImage.init(named: imageName)
-            break
         default:
             print("no more level up")
         }
@@ -240,6 +246,10 @@ extension ViewController {
         
         self.todayProgressLabel.text = "\(doneCount)/\(totalCount)"
         
+        self.setWidgetData(doneCount: doneCount, totalCount: totalCount, imageName: imageName)
+    }
+    
+    func setWidgetData(doneCount: Int, totalCount: Int, imageName: String) {
         // 위젯킷 사용은 iOS14 이상부터만
         if #available(iOS 14.0, *) {
             if let groupUserDafaults = UserDefaults(suiteName: "group.com.yookie.rookie") {
@@ -288,55 +298,69 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.characterCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "characterCell", for: indexPath) as! CharacterCollectionViewCell
-            cell.characterImageView.image = UIImage.init(named: self.characterCollection[indexPath.row])
+            guard let  cell = collectionView.dequeueReusableCell(withReuseIdentifier: "characterCell", for: indexPath) as? CharacterCollectionViewCell else {
+                return CharacterCollectionViewCell()
+            }
             
-            return cell
+            return self.setCharaterCell(cell: cell, indexPath: indexPath)
         } else if collectionView == self.todayCollectionView {
-            let todayTasks = DBManager.shared.selectTasksWithDate(self.today)
-            
-            let task = todayTasks[indexPath.row]
-            let title = task.title
-            let doneYN = task.done_yn
-            
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath) as! TodayCollectionViewCell
-            
-            cell.todayLabel.text = title
-            
-            if doneYN == "Y" {
-                cell.todayLabel.textColor = .white
-                cell.todayView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            } else {
-                cell.todayLabel.textColor = .black
-                cell.todayView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath) as? TodayCollectionViewCell else {
+                return TodayCollectionViewCell()
             }
             
-            return cell
+            return self.setTodayCell(cell: cell, indexPath: indexPath)
         } else if collectionView == self.lastCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastCell", for: indexPath) as! LastCollectionViewCell
-            
-            let num = indexPath.row % 3
-            switch num {
-                case 0:
-                    cell.lastView.backgroundColor = #colorLiteral(red: 0.583560884, green: 0.6693264246, blue: 0.5371844769, alpha: 1)
-                    break
-                case 1:
-                    cell.lastView.backgroundColor = #colorLiteral(red: 0.4941176471, green: 0.6352941176, blue: 0.7098039216, alpha: 1)
-                    break
-                case 2:
-                    cell.lastView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.4588235294, blue: 0.5176470588, alpha: 1)
-                    break
-                default:
-                    cell.lastView.backgroundColor = #colorLiteral(red: 0.583560884, green: 0.6693264246, blue: 0.5371844769, alpha: 1)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastCell", for: indexPath) as? LastCollectionViewCell else {
+                return LastCollectionViewCell()
             }
             
-            cell.lastLabel.text = self.mainDates[indexPath.row]
-            
-            return cell
+            return self.setLastCell(cell: cell, indexPath: indexPath)
         } else {
             let cell = UICollectionViewCell()
             return cell
         }
+    }
+    
+    func setCharaterCell(cell: CharacterCollectionViewCell, indexPath: IndexPath) -> CharacterCollectionViewCell {
+        cell.characterImageView.image = UIImage.init(named: self.characterCollection[indexPath.row])
+        return cell
+    }
+    
+    func setTodayCell(cell: TodayCollectionViewCell, indexPath: IndexPath) -> TodayCollectionViewCell {
+        let todayTasks = DBManager.shared.selectTasksWithDate(self.today)
+        let task = todayTasks[indexPath.row]
+        let title = task.title
+        let doneYN = task.done_yn
+        
+        cell.todayLabel.text = title
+        
+        if doneYN == "Y" {
+            cell.todayLabel.textColor = .white
+            cell.todayView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        } else {
+            cell.todayLabel.textColor = .black
+            cell.todayView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        }
+        
+        return cell
+    }
+    
+    func setLastCell(cell: LastCollectionViewCell, indexPath: IndexPath) -> LastCollectionViewCell {
+        let num = indexPath.row % 3
+        switch num {
+        case 0:
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.583560884, green: 0.6693264246, blue: 0.5371844769, alpha: 1)
+        case 1:
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.4941176471, green: 0.6352941176, blue: 0.7098039216, alpha: 1)
+        case 2:
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.4588235294, blue: 0.5176470588, alpha: 1)
+        default:
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.583560884, green: 0.6693264246, blue: 0.5371844769, alpha: 1)
+        }
+        
+        cell.lastLabel.text = self.mainDates[indexPath.row]
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -345,7 +369,9 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             let id = task.id
             let doneYN = task.done_yn
             
-            let cell = collectionView.cellForItem(at: indexPath) as! TodayCollectionViewCell
+            guard let cell = collectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell else {
+                return
+            }
             
             if doneYN == "N" {
                 cell.todayLabel.textColor = .white
@@ -364,10 +390,14 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
                 self.todayCollectionView.setContentOffset(.zero, animated: true)
             }
         } else if collectionView == self.lastCollectionView {
-            let cell = collectionView.cellForItem(at: indexPath) as! LastCollectionViewCell
+            guard let cell = collectionView.cellForItem(at: indexPath) as? LastCollectionViewCell else {
+                return
+            }
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
+            guard let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController else {
+                return
+            }
             detailVC.detailDate = cell.lastLabel.text!
             self.present(detailVC, animated: true, completion: nil)
         }
@@ -398,10 +428,9 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 infix operator &/
-
 extension Float {
     
-    public static func &/(lhs: Float, rhs: Float) -> Float {
+    public static func &/ (lhs: Float, rhs: Float) -> Float {
         if rhs == 0 {
             return 0
         }

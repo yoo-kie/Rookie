@@ -1,6 +1,6 @@
 //
 //  EditViewController.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/02.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -30,7 +30,7 @@ class EditViewController: UIViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: "추가하기", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "완료", style: .default) { (ok) in
+        let ok = UIAlertAction(title: "완료", style: .default) { _ in
             if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
                 let task = Tasks()
                 let formatter = DateFormatter()
@@ -47,8 +47,7 @@ class EditViewController: UIViewController {
             }
         }
 
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { (cancel) in
-        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
 
         alert.addTextField { (textField) in
             textField.placeholder = "ex) 영화보기"
@@ -94,10 +93,8 @@ extension EditViewController: UITableViewDelegate, UITableViewDataSource {
     func initEditTableViewUI() {
         self.editTableView.reloadData()
         
-        for constraint in self.editTableView.constraints {
-            if constraint.identifier == "etvHeight" {
-               constraint.constant = self.editTableView.contentSize.height + 5
-            }
+        for constraint in self.editTableView.constraints where constraint.identifier == "etvHeight" {
+            constraint.constant = self.editTableView.contentSize.height + 5
         }
         
         self.editTableView.layoutIfNeeded()

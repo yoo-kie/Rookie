@@ -1,6 +1,6 @@
 //
-//  RPGUITests.swift
-//  RPGUITests
+//  RookieUITests.swift
+//  RookieUITests
 //
 //  Created by 유연주 on 2020/08/01.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class RPGUITests: XCTestCase {
+class RookieUITests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
