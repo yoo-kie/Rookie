@@ -17,5 +17,5 @@ class TodayCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         todayView.layer.cornerRadius = 10
     }
-
+    
 }

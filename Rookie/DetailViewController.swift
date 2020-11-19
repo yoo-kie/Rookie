@@ -10,7 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var detailDate: String = "2020.08.20"
+    var detailDate: String = "2020.08.20(월)"
     var detailCharacter: String = ""
     
     @IBOutlet var detailTitleLabel: UILabel!
@@ -108,7 +108,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
             cell.detailView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         } else {
             cell.detailLabel.textColor = .black
-            cell.detailView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+            cell.detailView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
         }
             
         return cell
@@ -126,11 +126,11 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         if doneYN == "N" {
             cell.detailLabel.textColor = .white
             cell.detailView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            DBManager.shared.updateTask(id, "Y")
+            DBManager.shared.updateTaskDoneYN(id, "Y")
         } else {
             cell.detailLabel.textColor = .black
-            cell.detailView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
-            DBManager.shared.updateTask(id, "N")
+            cell.detailView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
+            DBManager.shared.updateTaskDoneYN(id, "N")
         }
             
         self.updateProgressView()

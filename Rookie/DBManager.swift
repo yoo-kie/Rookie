@@ -25,6 +25,7 @@ class DBManager {
     var allMonths = [String]()
     var allDates = [String]()
     var todayCharacter: String = ""
+    var characterCollection = [String]()
     
     func incrementTaskID() -> Int {
         return (realm.objects(Tasks.self).max(ofProperty: "id") as Int? ?? 0) + 1
@@ -37,12 +38,13 @@ class DBManager {
     
     func selectTasksWithID(_ idx: Int) -> Tasks {
         let result = realm.objects(Tasks.self).filter("id = \(idx)").toArray(type: Tasks.self)
+        print(result)
+        
         return result.first!
     }
     
     func selectTasksWithDate(_ date: String) -> [Tasks] {
         var result = realm.objects(Tasks.self).filter("date = '\(date)'").toArray(type: Tasks.self)
-        // 루키루키
         result.sort { $0.done_yn < $1.done_yn }
         
         return result
@@ -75,10 +77,17 @@ class DBManager {
         }
     }
     
-    func updateTask(_ idx: Int, _ done_yn: String) {
+    func updateTaskDoneYN(_ idx: Int, _ done_yn: String) {
         let task = self.selectTasksWithID(idx)
         realm.safeWrite {
             task.done_yn = done_yn
+        }
+    }
+    
+    func updateTaskDate(_ idx: Int, _ date: String) {
+        let task = self.selectTasksWithID(idx)
+        realm.safeWrite {
+            task.date = date
         }
     }
     
@@ -92,7 +101,8 @@ class DBManager {
         }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "yyyy.MM.dd eee"
         let today = formatter.string(from: Date())
         
         allDates = dates.filter { $0 != today }.sorted().reversed()
@@ -107,9 +117,14 @@ class DBManager {
     // 파라미터로 들어온 월의 일자들 반환
     func initSelectedDates(_ month: String, completionHandler: @escaping ([String]) -> Void) {
         var selectedDates = allDates.filter {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko")
+            formatter.dateFormat = "yyyy.MM.dd eee"
+            let today = formatter.string(from: Date())
+            
             let end = $0.index($0.startIndex, offsetBy: 7)
             let substring = String($0[$0.startIndex..<end])
-            return substring == month
+            return ($0 <= today) && (substring == month)
         }
         
         selectedDates = selectedDates.sorted().reversed()

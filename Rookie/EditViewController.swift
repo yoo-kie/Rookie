@@ -11,7 +11,7 @@ import UIKit
 class EditViewController: UIViewController {
     
     @IBOutlet public var editTableView: UITableView!
-    var editDate: String = "2020.08.20"
+    var editDate: String = "2020.08.20(월)"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,8 @@ class EditViewController: UIViewController {
             if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
                 let task = Tasks()
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy.MM.dd"
+                formatter.locale = Locale(identifier: "ko")
+                formatter.dateFormat = "yyyy.MM.dd eee"
                 let today = formatter.string(from: Date())
                 
                 task.id = DBManager.shared.incrementTaskID()
@@ -56,7 +57,7 @@ class EditViewController: UIViewController {
         alert.addAction(cancel)
         alert.addAction(ok)
 
-        alert.view.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        alert.view.tintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -73,7 +74,7 @@ extension EditViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath)
         cell.textLabel?.text = DBManager.shared.selectTasksWithDate(editDate)[indexPath.row].title
         
-        let font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.medium)
+        let font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.regular)
         cell.textLabel!.font = font
         
         return cell
