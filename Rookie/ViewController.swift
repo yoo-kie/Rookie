@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko")
@@ -87,6 +87,15 @@ class ViewController: UIViewController {
         self.updateMain()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if let todayLayout = self.todayCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout, let lastLayout = self.lastCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout {
+            DispatchQueue.main.async {
+                todayLayout.invalidateLayout()
+                lastLayout.invalidateLayout()
+            }
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dest = segue.destination
         
@@ -129,7 +138,7 @@ class ViewController: UIViewController {
             
             alert.addAction(cancel)
             alert.addAction(ok)
-            alert.view.tintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            alert.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
             self.present(alert, animated: true, completion: nil)
         } else {
             self.actionSheetStyleAlert(message: "지난 리스트가 없습니다")
@@ -357,13 +366,13 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         let num = indexPath.row % 3
         switch num {
         case 0:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.5231845975, green: 0.705971837, blue: 0.5164485574, alpha: 1)
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         case 1:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.9162381291, green: 0.5721789002, blue: 0.4165140688, alpha: 1)
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.5921568627, green: 0.5647058824, blue: 0.4705882353, alpha: 1)
         case 2:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.8073843122, green: 0.6743021011, blue: 0.4303137958, alpha: 1)
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.7227522731, green: 0.6883900762, blue: 0.5979392529, alpha: 1)
         default:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.5231845975, green: 0.705971837, blue: 0.5164485574, alpha: 1)
+            cell.lastView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.8, blue: 0.9960784314, alpha: 1)
         }
         
         cell.lastLabel.text = self.mainDates[indexPath.row]
@@ -441,7 +450,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
                 
                 actionSheet.addAction(tomorrowAction)
                 actionSheet.addAction(cancelAction)
-                actionSheet.view.tintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                actionSheet.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
                 
                 self.present(actionSheet, animated: true, completion: nil)
             } else {

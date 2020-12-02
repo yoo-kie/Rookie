@@ -17,8 +17,15 @@ class MenuViewController: UIViewController {
         return collectionView
     }()
     
+    @IBOutlet var lbVersion: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        if let version = version {
+            lbVersion.text = version
+        }
         
         characterCollectionView.delegate = self
         characterCollectionView.dataSource = self

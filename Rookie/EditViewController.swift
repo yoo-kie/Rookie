@@ -57,7 +57,7 @@ class EditViewController: UIViewController {
         alert.addAction(cancel)
         alert.addAction(ok)
 
-        alert.view.tintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        alert.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -74,7 +74,7 @@ extension EditViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath)
         cell.textLabel?.text = DBManager.shared.selectTasksWithDate(editDate)[indexPath.row].title
         
-        let font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.regular)
+        let font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.medium)
         cell.textLabel!.font = font
         
         return cell

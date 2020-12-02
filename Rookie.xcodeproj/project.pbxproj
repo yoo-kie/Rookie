@@ -243,9 +243,9 @@
 				AED91D8724D6B2E900D91553 /* EditViewController.swift */,
 				AE7721A324ED003F001BF4B6 /* DetailViewController.swift */,
 				AEC310E025061F2B00B6D235 /* DetailCollectionViewCell.swift */,
+				AE63A7E02566AD500058DE7F /* MenuViewController.swift */,
 				AED91D5324D57AE400D91553 /* AppDelegate.swift */,
 				AE7721B924EFC985001BF4B6 /* SceneDelegate.swift */,
-				AE63A7E02566AD500058DE7F /* MenuViewController.swift */,
 			);
 			path = Rookie;
 			sourceTree = "<group>";
@@ -798,7 +798,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yookie.rookie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -821,7 +821,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yookie.rookie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
