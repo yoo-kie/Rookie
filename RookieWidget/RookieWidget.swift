@@ -16,12 +16,12 @@ struct Provider: TimelineProvider {
         rookieEntry
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (RookieEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (RookieEntry) -> Void) {
         let entry = rookieEntry
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let entries = [rookieEntry]
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
