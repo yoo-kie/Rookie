@@ -1,6 +1,6 @@
 //
 //  EditViewController.swift
-//  RPG
+//  Rookie
 //
 //  Created by 유연주 on 2020/08/02.
 //  Copyright © 2020 yookie. All rights reserved.
@@ -11,13 +11,12 @@ import UIKit
 class EditViewController: UIViewController {
     
     @IBOutlet public var editTableView: UITableView!
-    var editDate: String = "2020.08.20"
+    var editDate: String = "2020.08.20(월)"
     
     override func viewDidLoad() {
         super.viewDidLoad()
  
         self.navigationItem.title = editDate
-        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9458019137, green: 0.8140015006, blue: 0.2600919008, alpha: 1)
         
         editTableView.delegate = self
         editTableView.dataSource = self
@@ -31,11 +30,12 @@ class EditViewController: UIViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: "추가하기", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "완료", style: .default) { (ok) in
+        let ok = UIAlertAction(title: "완료", style: .default) { _ in
             if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
                 let task = Tasks()
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy.MM.dd"
+                formatter.locale = Locale(identifier: "ko")
+                formatter.dateFormat = "yyyy.MM.dd eee"
                 let today = formatter.string(from: Date())
                 
                 task.id = DBManager.shared.incrementTaskID()
@@ -48,8 +48,7 @@ class EditViewController: UIViewController {
             }
         }
 
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { (cancel) in
-        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
 
         alert.addTextField { (textField) in
             textField.placeholder = "ex) 영화보기"
@@ -58,7 +57,7 @@ class EditViewController: UIViewController {
         alert.addAction(cancel)
         alert.addAction(ok)
 
-        alert.view.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        alert.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -75,7 +74,7 @@ extension EditViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath)
         cell.textLabel?.text = DBManager.shared.selectTasksWithDate(editDate)[indexPath.row].title
         
-        let font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.medium)
+        let font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.medium)
         cell.textLabel!.font = font
         
         return cell
@@ -95,10 +94,8 @@ extension EditViewController: UITableViewDelegate, UITableViewDataSource {
     func initEditTableViewUI() {
         self.editTableView.reloadData()
         
-        for constraint in self.editTableView.constraints {
-            if constraint.identifier == "etvHeight" {
-               constraint.constant = self.editTableView.contentSize.height + 5
-            }
+        for constraint in self.editTableView.constraints where constraint.identifier == "etvHeight" {
+            constraint.constant = self.editTableView.contentSize.height + 5
         }
         
         self.editTableView.layoutIfNeeded()

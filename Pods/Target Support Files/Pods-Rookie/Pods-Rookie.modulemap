@@ -1,0 +1,6 @@
+framework module Pods_Rookie {
+  umbrella header "Pods-Rookie-umbrella.h"
+
+  export *
+  module * { export * }
+}
