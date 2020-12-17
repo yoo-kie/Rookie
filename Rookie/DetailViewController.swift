@@ -10,10 +10,11 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var detailDate: String = "2020.08.20(월)"
+    var detailDate: String = ""
     var detailCharacter: String = ""
+    var collectionViewHeight: CGFloat!
     
-    @IBOutlet var detailTitleLabel: UILabel!
+    @IBOutlet var detailDateLabel: UILabel!
     @IBOutlet var finishWordLabel: UILabel!
     @IBOutlet var detailProgressImage: UIImageView!
     @IBOutlet var detailProgressView: UIProgressView!
@@ -30,18 +31,21 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        detailTitleLabel.text = detailDate
-        detailCharacter = DBManager.shared.selectCharacterWithDate(detailDate)
-        
-        detailCollectionView.delegate = self
-        detailCollectionView.dataSource = self
-        detailCollectionView.register(UINib(nibName: "DetailCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "detailCell")
-        
-        self.updateProgressView()
-    }
-
-    @IBAction func clickDimissButton(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        if detailDate != "" {
+            detailDateLabel.text = detailDate
+            
+            detailCharacter = DBManager.shared.selectCharacterWithDate(detailDate)
+            
+            detailCollectionView.delegate = self
+            detailCollectionView.dataSource = self
+            detailCollectionView.register(UINib(nibName: "DetailCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "detailCell")
+            
+            collectionViewHeight = self.view.frame.height * 0.15
+            detailCollectionView.translatesAutoresizingMaskIntoConstraints = false
+            detailCollectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight).isActive = true
+            
+            self.updateProgressView()
+        }
     }
     
 }
@@ -85,8 +89,16 @@ extension DetailViewController {
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
+    override func viewWillLayoutSubviews() {
+        if let detailLayout = self.detailCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout {
+            DispatchQueue.main.async {
+                detailLayout.invalidateLayout()
+            }
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
+        return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -108,7 +120,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
             cell.detailView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         } else {
             cell.detailLabel.textColor = .black
-            cell.detailView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
+            cell.detailView.backgroundColor = #colorLiteral(red: 0.8298448324, green: 0.8831481338, blue: 0.6543511152, alpha: 1)
         }
             
         return cell
@@ -122,18 +134,19 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else {
             return
         }
-            
+        
         if doneYN == "N" {
             cell.detailLabel.textColor = .white
             cell.detailView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             DBManager.shared.updateTaskDoneYN(id, "Y")
         } else {
             cell.detailLabel.textColor = .black
-            cell.detailView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
+            cell.detailView.backgroundColor = #colorLiteral(red: 0.8298448324, green: 0.8831481338, blue: 0.6543511152, alpha: 1)
             DBManager.shared.updateTaskDoneYN(id, "N")
         }
             
         self.updateProgressView()
+        self.detailCollectionView.reloadData()
     }
     
 }

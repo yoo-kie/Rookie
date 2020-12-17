@@ -21,9 +21,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Q-jm-iFy">
                         <rect key="frame" x="0.0" y="0.0" width="169" height="166"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="루키루키" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="150" translatesAutoresizingMaskIntoConstraints="NO" id="AS5-au-9xG">
-                                <rect key="frame" x="5" y="74.5" width="159" height="17"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="루키루키" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="150" translatesAutoresizingMaskIntoConstraints="NO" id="AS5-au-9xG">
+                                <rect key="frame" x="10" y="74" width="149" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -31,8 +31,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="AS5-au-9xG" secondAttribute="trailing" constant="5" id="6zb-ar-nhu"/>
-                            <constraint firstItem="AS5-au-9xG" firstAttribute="leading" secondItem="Q2Q-jm-iFy" secondAttribute="leading" constant="5" id="RX5-jN-sle"/>
+                            <constraint firstAttribute="trailing" secondItem="AS5-au-9xG" secondAttribute="trailing" constant="10" id="6zb-ar-nhu"/>
+                            <constraint firstItem="AS5-au-9xG" firstAttribute="leading" secondItem="Q2Q-jm-iFy" secondAttribute="leading" constant="10" id="RX5-jN-sle"/>
                             <constraint firstItem="AS5-au-9xG" firstAttribute="centerY" secondItem="Q2Q-jm-iFy" secondAttribute="centerY" id="ksx-YI-Wdw"/>
                         </constraints>
                     </view>

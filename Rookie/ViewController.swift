@@ -11,28 +11,37 @@ import WidgetKit
 
 class ViewController: UIViewController {
     
-    var today = ""
-    var tomorrow = ""
-    var mainMonth = ""
-    var mainDates = [String]()
+    var today: String = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "yyyy.MM.dd eee"
+        return formatter.string(from: Date())
+    }()
+    
+    var tomorrow: String = {
+        guard let date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else {
+            return ""
+        }
+          
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "yyyy.MM.dd eee"
+        return formatter.string(from: date)
+    }()
+    
     var mainList = [Tasks]()
     var mainDoneList = [Tasks]()
+    
+    @IBOutlet var diaryBtn: UIButton!
     
     @IBOutlet var oneWordLabel: UILabel!
     @IBOutlet var todayProgressImage: UIImageView!
     @IBOutlet var todayProgressView: UIProgressView!
     @IBOutlet var mainDateSC: UISegmentedControl!
     @IBOutlet var todayProgressLabel: UILabel!
-    @IBOutlet var mainDatesLabel: UILabel!
+    @IBOutlet var allDatesLabel: UILabel!
     
     @IBOutlet var todayCollectionView: UICollectionView! = {
-        let layout = UICollectionViewLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    @IBOutlet var lastCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,40 +52,24 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
-        
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "yyyy.MM.dd eee"
-        self.today = formatter.string(from: Date())
-        
         self.navigationItem.title = self.today
-        self.initMainListDate(date: self.today)
+    
+        diaryBtn.layer.cornerRadius = 10
         
         let endIndex = today.index(today.startIndex, offsetBy: 7)
         let month = String(today[today.startIndex..<endIndex])
         
+        self.initMainListDate(date: self.today)
         DBManager.shared.initAllMonthsAndDates()
         DBManager.shared.initSelectedDates(month) { (dates) in
-            self.mainMonth = month
-            self.mainDates = dates
-            self.mainDatesLabel.text = "\(self.mainDates.count)개"
             self.resetTodayCharacter(today: self.today, thisMonthDates: dates)
+            self.allDatesLabel.text = "\(dates.count)일"
         }
-        
-        guard let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else {
-            return
-        }
-        self.tomorrow = formatter.string(from: tomorrowDate)
         
         todayCollectionView.delegate = self
         todayCollectionView.dataSource = self
         todayCollectionView.register(UINib(nibName: "TodayCollectionViewCell", bundle: nil),
                                      forCellWithReuseIdentifier: "todayCell")
-        
-        lastCollectionView.delegate = self
-        lastCollectionView.dataSource = self
-        lastCollectionView.register(UINib(nibName: "LastCollectionViewCell", bundle: nil),
-                                    forCellWithReuseIdentifier: "lastCell")
         
         self.addLongPressOnCollectionView()
     }
@@ -88,10 +81,9 @@ class ViewController: UIViewController {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if let todayLayout = self.todayCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout, let lastLayout = self.lastCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let todayLayout = self.todayCollectionView!.collectionViewLayout as? UICollectionViewFlowLayout {
             DispatchQueue.main.async {
                 todayLayout.invalidateLayout()
-                lastLayout.invalidateLayout()
             }
         }
     }
@@ -108,41 +100,6 @@ class ViewController: UIViewController {
 
     @IBAction func selectMainListDate(_ sender: UISegmentedControl) {
         self.updateMain()
-    }
-    
-    @IBAction func clickMonthPickerView(_ sender: UIButton) {
-        if DBManager.shared.allMonths.count != 0 {
-            let alert = UIAlertController(title: "지난 리스트", message: "\n\n\n\n\n\n", preferredStyle: .alert)
-                    
-            let pickerView = UIPickerView(frame: CGRect(x: 5, y: 30, width: 250, height: 140))
-            pickerView.delegate = self
-            pickerView.dataSource = self
-            alert.view.addSubview(pickerView)
-            
-            if let defaultRow = DBManager.shared.allMonths.firstIndex(of: self.mainMonth) {
-                pickerView.selectRow(defaultRow, inComponent: 0, animated: true)
-            } else {
-                pickerView.selectRow(0, inComponent: 0, animated: true)
-            }
-            
-            let ok = UIAlertAction(title: "완료", style: .default) { _ in
-                DBManager.shared.initSelectedDates(self.mainMonth) { (dates) in
-                    self.mainDates = dates
-                    self.mainDatesLabel.text = "\(self.mainDates.count)개"
-                    self.lastCollectionView.reloadData()
-                }
-            }
-
-            let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-            }
-            
-            alert.addAction(cancel)
-            alert.addAction(ok)
-            alert.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            self.actionSheetStyleAlert(message: "지난 리스트가 없습니다")
-        }
     }
     
     func actionSheetStyleAlert(message: String) {
@@ -172,11 +129,6 @@ class ViewController: UIViewController {
 
 extension ViewController {
     
-    func initMainListDate(date: String) {
-        self.mainList = DBManager.shared.selectTasksWithDate(date)
-        self.mainDoneList = DBManager.shared.selectDoneTasksWithDate(date)
-    }
-    
     func resetTodayCharacter(today: String, thisMonthDates: [String]) {
         var name = ""
         var count: Int = 1
@@ -186,21 +138,17 @@ extension ViewController {
             name = "뽀짝이"
             DBManager.shared.characterCollection = ["뽀짝이"]
             count = 3
-        case 1...10:
+        case 1..<10:
             name = "뽀짝이"
             DBManager.shared.characterCollection = ["뽀짝이"]
             count = 3
-        case 11...20:
+        case 10..<20:
             name = "뽀록희"
             DBManager.shared.characterCollection = ["뽀짝이", "뽀록희"]
-            count = 1
-        case 21...31:
-            name = "뽀록희"
-            DBManager.shared.characterCollection = ["뽀짝이", "뽀록희"]
-            count = 1
+            count = 2
         default:
-            name = "뽀짝이"
-            DBManager.shared.characterCollection = ["뽀짝이"]
+            name = "키캡"
+            DBManager.shared.characterCollection = ["뽀짝이", "뽀록희", "키캡"]
             count = 1
         }
         
@@ -225,6 +173,11 @@ extension ViewController {
             
             DBManager.shared.todayCharacter = name
         }
+    }
+    
+    func initMainListDate(date: String) {
+        self.mainList = DBManager.shared.selectTasksWithDate(date)
+        self.mainDoneList = DBManager.shared.selectDoneTasksWithDate(date)
     }
     
     func updateMain() {
@@ -297,11 +250,7 @@ extension ViewController {
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.lastCollectionView {
-            return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
-        } else {
-            return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height/1.5)
-        }
+        return CGSize(width: collectionView.frame.width/1.5, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -312,13 +261,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
                 self.todayCollectionView.isHidden = false
             }
             return self.mainList.count
-        } else if collectionView == self.lastCollectionView {
-            if self.mainDates.count == 0 {
-                self.lastCollectionView.isHidden = true
-            } else {
-                self.lastCollectionView.isHidden = false
-            }
-            return self.mainDates.count
         } else {
             return 50
         }
@@ -331,12 +273,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             }
             
             return self.setTodayCell(cell: cell, indexPath: indexPath)
-        } else if collectionView == self.lastCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastCell", for: indexPath) as? LastCollectionViewCell else {
-                return LastCollectionViewCell()
-            }
-            
-            return self.setLastCell(cell: cell, indexPath: indexPath)
         } else {
             let cell = UICollectionViewCell()
             return cell
@@ -362,24 +298,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return cell
     }
     
-    func setLastCell(cell: LastCollectionViewCell, indexPath: IndexPath) -> LastCollectionViewCell {
-        let num = indexPath.row % 3
-        switch num {
-        case 0:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
-        case 1:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.5921568627, green: 0.5647058824, blue: 0.4705882353, alpha: 1)
-        case 2:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.7227522731, green: 0.6883900762, blue: 0.5979392529, alpha: 1)
-        default:
-            cell.lastView.backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.8, blue: 0.9960784314, alpha: 1)
-        }
-        
-        cell.lastLabel.text = self.mainDates[indexPath.row]
-        
-        return cell
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.todayCollectionView {
             let task = self.mainList[indexPath.row]
@@ -401,17 +319,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             }
             
             self.updateMain()
-        } else if collectionView == self.lastCollectionView {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? LastCollectionViewCell else {
-                return
-            }
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController else {
-                return
-            }
-            detailVC.detailDate = cell.lastLabel.text!
-            self.present(detailVC, animated: true, completion: nil)
         }
     }
     
@@ -456,28 +363,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             } else {
                 self.actionSheetStyleAlert(message: "이미 완료된 일입니다-!")
             }
-        }
-    }
-    
-}
-
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return DBManager.shared.allMonths.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return DBManager.shared.allMonths[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if DBManager.shared.allMonths.count != 0 {
-            self.mainMonth = DBManager.shared.allMonths[row]
         }
     }
     

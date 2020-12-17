@@ -8,6 +8,7 @@ target 'Rookie' do
   # Pods for Rookie
 #  pod ‘RealmSwift’
 #  pod 'SwiftLint'
+#  pod 'FSCalendar'
 
   target 'RookieTests' do
     inherit! :search_paths
