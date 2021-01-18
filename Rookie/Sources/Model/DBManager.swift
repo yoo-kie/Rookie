@@ -12,6 +12,18 @@ import RealmSwift
 // Realm 데이터를 관리하는 부분
 // 싱글톤으로 구성
 
+class Tasks: Object {
+    @objc dynamic var id = 0
+    @objc dynamic var character = "뽀짝이1"
+    @objc dynamic var date = "0000.00.00 월"
+    @objc dynamic var title = ""
+    @objc dynamic var done_yn = "N"
+    
+    override static func primaryKey() -> String? {
+      return "id"
+    }
+}
+
 class DBManager {
     static let shared = DBManager()
     
@@ -22,10 +34,8 @@ class DBManager {
         return realm
     }
     
-    var allMonths = [String]()
-    var allDates = [String]()
-    var todayCharacter: String = ""
-    var characterCollection = [String]()
+    var todayRookie: String = ""
+    var rookiesCollection = ["뽀짝이", "뽀록희", "키캡"]
     
     func incrementTaskID() -> Int {
         return (realm.objects(Tasks.self).max(ofProperty: "id") as Int? ?? 0) + 1
@@ -60,9 +70,9 @@ class DBManager {
         return result
     }
     
-    func selectCharacterWithDate(_ date: String) -> String {
+    func selectCharacterWithDate(_ date: String) -> String? {
         let result = realm.objects(Tasks.self).filter("date = '\(date)'").distinct(by: ["character"])
-        return result.first!.character
+        return result.first?.character
     }
     
     func addTask(_ task: Tasks) {
@@ -71,9 +81,9 @@ class DBManager {
         }
     }
     
-    func deleteTaskWithID(_ idx: Int) {
+    func updateTask(_ data: [String: Any]) {
         realm.safeWrite {
-            realm.delete(realm.objects(Tasks.self).filter("id = \(idx)"))
+            realm.create(Tasks.self, value: data, update: .modified)
         }
     }
     
@@ -83,7 +93,7 @@ class DBManager {
             task.done_yn = done_yn
         }
     }
-    
+
     func updateTaskDate(_ idx: Int, _ date: String) {
         let task = self.selectTasksWithID(idx)
         realm.safeWrite {
@@ -91,60 +101,33 @@ class DBManager {
         }
     }
     
-    func initAllMonthsAndDates() {
-        let result = realm.objects(Tasks.self).distinct(by: ["date"])
-        
-        var dates = [String]()
-        
-        for task in result {
-            dates.append(task.date)
+    func deleteTaskWithID(_ idx: Int) {
+        realm.safeWrite {
+            realm.delete(realm.objects(Tasks.self).filter("id = \(idx)"))
         }
-        
+    }
+    
+    func getAllDates() -> [String] {
+        let result = realm.objects(Tasks.self).value(forKey: "date") as! [String]
+        return result.sorted().reversed()
+    }
+    
+    // 파라미터로 들어온 월의 일자들 반환
+    func getDates(of month: String) -> [String] {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy.MM.dd eee"
         let today = formatter.string(from: Date())
         
-        allDates = dates.filter { $0 != today }.sorted().reversed()
-        
-        allMonths = Array(Set<String>(allDates.map {
-            let end = $0.index($0.startIndex, offsetBy: 7)
-            let dateSubstr = String($0[$0.startIndex..<end])
-            return dateSubstr
-        })).sorted().reversed()
-    }
-    
-    // 파라미터로 들어온 월의 일자들 반환
-    func initSelectedDates(_ month: String, completionHandler: @escaping ([String]) -> Void) {
-        var selectedDates = allDates.filter {
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "ko")
-            formatter.dateFormat = "yyyy.MM.dd eee"
-            let today = formatter.string(from: Date())
-            
+        var selectedDates = self.getAllDates().filter {
             let end = $0.index($0.startIndex, offsetBy: 7)
             let substring = String($0[$0.startIndex..<end])
             return ($0 <= today) && (substring == month)
         }
         
         selectedDates = selectedDates.sorted().reversed()
-        completionHandler(selectedDates)
+        return selectedDates
     }
-    
-}
-
-class Tasks: Object {
-
-    @objc dynamic var id = 0
-    @objc dynamic var character = "뽀짝이1"
-    @objc dynamic var date = "0000.00.00"
-    @objc dynamic var title = ""
-    @objc dynamic var done_yn = "N"
-    
-    override static func primaryKey() -> String? {
-      return "id"
-    }
-    
 }
 
 extension Realm {
@@ -171,9 +154,7 @@ extension Realm {
 }
 
 extension Results {
-    
     func toArray<T>(type: T.Type) -> [T] {
         return compactMap { $0 as? T }
     }
-    
 }

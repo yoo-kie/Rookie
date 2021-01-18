@@ -10,7 +10,6 @@ import UIKit
 import FSCalendar
 
 class DiaryViewController: UIViewController {
-    
     var detailView: UIView = UIView()
     var calendar: FSCalendar = FSCalendar()
     var calendarHeightConstraint: NSLayoutConstraint!
@@ -111,7 +110,7 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
         formatter.dateFormat = "yyyy.MM.dd eee"
         let selectDate = formatter.string(from: date)
         
-        if DBManager.shared.allDates.contains(selectDate) {
+        if DBManager.shared.getAllDates().contains(selectDate) {
             return true
         } else {
             return false
@@ -151,11 +150,10 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
         formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy.MM.dd eee"
         let cellDate = formatter.string(from: date)
-        if DBManager.shared.allDates.contains(cellDate) {
+        if DBManager.shared.getAllDates().contains(cellDate) {
             return 1
         } else {
             return 0
         }
     }
-    
 }

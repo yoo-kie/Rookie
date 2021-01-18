@@ -9,7 +9,6 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
     var detailDate: String = ""
     var detailCharacter: String = ""
     var collectionViewHeight: CGFloat!
@@ -34,7 +33,10 @@ class DetailViewController: UIViewController {
         if detailDate != "" {
             detailDateLabel.text = detailDate
             
-            detailCharacter = DBManager.shared.selectCharacterWithDate(detailDate)
+            guard let character = DBManager.shared.selectCharacterWithDate(detailDate) else {
+                return
+            }
+            detailCharacter = character
             
             detailCollectionView.delegate = self
             detailCollectionView.dataSource = self
@@ -148,5 +150,4 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         self.updateProgressView()
         self.detailCollectionView.reloadData()
     }
-    
 }
