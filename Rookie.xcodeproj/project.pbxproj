@@ -12,6 +12,7 @@
 		AE2DAC4F2599A8C20024D4E4 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2DAC4E2599A8C20024D4E4 /* MainModel.swift */; };
 		AE2DAC552599A8CE0024D4E4 /* EditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2DAC542599A8CE0024D4E4 /* EditModel.swift */; };
 		AE63940125B682C40031CD3F /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE63940025B682C40031CD3F /* DiaryModel.swift */; };
+		AE63940E25B6B1350031CD3F /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE63940D25B6B1350031CD3F /* DetailModel.swift */; };
 		AE7721B824EFA553001BF4B6 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7721B724EFA553001BF4B6 /* DBManager.swift */; };
 		AE7721BA24EFC985001BF4B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7721B924EFC985001BF4B6 /* SceneDelegate.swift */; };
 		AE7B5D882540202E00FC2F3B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7B5D872540202E00FC2F3B /* WidgetKit.framework */; };
@@ -91,6 +92,7 @@
 		AE2DAC4E2599A8C20024D4E4 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		AE2DAC542599A8CE0024D4E4 /* EditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModel.swift; sourceTree = "<group>"; };
 		AE63940025B682C40031CD3F /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
+		AE63940D25B6B1350031CD3F /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		AE7721B724EFA553001BF4B6 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		AE7721B924EFC985001BF4B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AE7B5D862540202E00FC2F3B /* RookieWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RookieWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +225,7 @@
 			children = (
 				AE7721B724EFA553001BF4B6 /* DBManager.swift */,
 				AE2DAC4E2599A8C20024D4E4 /* MainModel.swift */,
+				AE63940D25B6B1350031CD3F /* DetailModel.swift */,
 				AE2DAC542599A8CE0024D4E4 /* EditModel.swift */,
 				AE1D33EF25B51C0200E1F310 /* MenuModel.swift */,
 				AE63940025B682C40031CD3F /* DiaryModel.swift */,
@@ -595,6 +598,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE63940E25B6B1350031CD3F /* DetailModel.swift in Sources */,
 				AEAD2D352598EB0A006C25A8 /* EditViewController.swift in Sources */,
 				AE63940125B682C40031CD3F /* DiaryModel.swift in Sources */,
 				AEAD2D372598EB0A006C25A8 /* MenuViewController.swift in Sources */,
