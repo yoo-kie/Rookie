@@ -9,11 +9,9 @@
 import UIKit
 
 class CharacterCollectionViewCell: UICollectionViewCell {
-
     @IBOutlet var characterImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
 }

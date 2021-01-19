@@ -10,13 +10,18 @@ import UIKit
 import FSCalendar
 
 class DiaryViewController: UIViewController {
+    let diaryModel: DiaryModel = DiaryModel()
     
+    var eventDates: [String] = [String]()
     var detailView: UIView = UIView()
     var calendar: FSCalendar = FSCalendar()
     var calendarHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        diaryModel.delegate = self
+        diaryModel.fetchEventDates()
         
         self.setCalendar()
         self.setDetailView()
@@ -95,11 +100,15 @@ class DiaryViewController: UIViewController {
             return gradientLineImage
         }()
     }
-    
+}
+
+extension DiaryViewController: DiaryModelDelegate {
+    func diaryModel(eventDates: [String]) {
+        self.eventDates = eventDates
+    }
 }
 
 extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
-    
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         self.calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
@@ -111,7 +120,7 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
         formatter.dateFormat = "yyyy.MM.dd eee"
         let selectDate = formatter.string(from: date)
         
-        if DBManager.shared.allDates.contains(selectDate) {
+        if self.eventDates.contains(selectDate) {
             return true
         } else {
             return false
@@ -135,6 +144,18 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
         detailView.addSubview(detailVC.view)
     }
     
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "yyyy.MM.dd eee"
+        let cellDate = formatter.string(from: date)
+        if self.eventDates.contains(cellDate) {
+            return 1
+        } else {
+            return 0
+        }
+    }
+    
     func maximumDate(for calendar: FSCalendar) -> Date {
         return Date()
     }
@@ -145,17 +166,4 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
             vc.removeFromParent()
         }
     }
-    
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "yyyy.MM.dd eee"
-        let cellDate = formatter.string(from: date)
-        if DBManager.shared.allDates.contains(cellDate) {
-            return 1
-        } else {
-            return 0
-        }
-    }
-    
 }
