@@ -8,8 +8,8 @@
 
 import UIKit
 
-class EditViewController: UIViewController {
-    let editModel: EditModel = EditModel()
+final class EditViewController: UIViewController {
+    private let editModel: EditModel = EditModel()
     
     @IBOutlet public var editTableView: UITableView!
     

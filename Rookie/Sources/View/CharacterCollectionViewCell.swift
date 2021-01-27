@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CharacterCollectionViewCell: UICollectionViewCell {
+final class CharacterCollectionViewCell: UICollectionViewCell {
     @IBOutlet var characterImageView: UIImageView!
     
     override func awakeFromNib() {

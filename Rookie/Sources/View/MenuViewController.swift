@@ -8,8 +8,8 @@
 
 import UIKit
 
-class MenuViewController: UIViewController {
-    let menuModel = MenuModel()
+final class MenuViewController: UIViewController {
+    private let menuModel = MenuModel()
     
     @IBOutlet var lbVersion: UILabel!
     
@@ -21,7 +21,7 @@ class MenuViewController: UIViewController {
     }()
     
     var menuDate: String = "2020.08.20 월"
-    var rookies: [String] = [String]()
+    private var rookies: [String] = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

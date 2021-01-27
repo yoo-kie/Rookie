@@ -8,8 +8,8 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    var detailModel: DetailModel = DetailModel()
+final class DetailViewController: UIViewController {
+    private var detailModel: DetailModel = DetailModel()
     
     @IBOutlet var detailDateLabel: UILabel!
     @IBOutlet var finishWordLabel: UILabel!
@@ -26,10 +26,10 @@ class DetailViewController: UIViewController {
     }()
     
     var detailDate: String = ""
-    var mainTasks = [Tasks]()
-    var mainDoneTasks = [Tasks]()
-    var mainRookie: String = ""
-    var collectionViewHeight: CGFloat!
+    private var mainTasks = [Tasks]()
+    private var mainDoneTasks = [Tasks]()
+    private var mainRookie: String = ""
+    private var collectionViewHeight: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()

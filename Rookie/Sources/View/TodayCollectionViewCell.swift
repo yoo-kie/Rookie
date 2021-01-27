@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TodayCollectionViewCell: UICollectionViewCell {
+final class TodayCollectionViewCell: UICollectionViewCell {
     @IBOutlet var todayView: UIView!
     @IBOutlet var todayLabel: UILabel!
     

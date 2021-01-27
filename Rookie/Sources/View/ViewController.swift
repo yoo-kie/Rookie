@@ -9,8 +9,8 @@
 import UIKit
 import WidgetKit
 
-class ViewController: UIViewController {
-    let mainModel: MainModel = MainModel()
+final class ViewController: UIViewController {
+    private let mainModel: MainModel = MainModel()
     
     @IBOutlet var todayProgressLabel: UILabel!
     @IBOutlet var todayProgressImage: UIImageView!
@@ -29,18 +29,18 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
-    var mainTasks = [Tasks]()
-    var mainDoneTasks = [Tasks]()
-    var mainRookie = "뽀짝이1"
+    private var mainTasks = [Tasks]()
+    private var mainDoneTasks = [Tasks]()
+    private var mainRookie = "뽀짝이1"
     
-    var today: String = {
+    private var today: String = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy.MM.dd eee"
         return formatter.string(from: Date())
     }()
     
-    var tomorrow: String = {
+    private var tomorrow: String = {
         guard let date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else {
             return ""
         }

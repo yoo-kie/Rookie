@@ -11,7 +11,8 @@ import Foundation
 protocol DiaryModelDelegate {
     func diaryModel(eventDates: [String])
 }
-class DiaryModel {
+
+final class DiaryModel {
     var delegate: DiaryModelDelegate?
     
     func fetchEventDates() {

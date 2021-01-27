@@ -12,7 +12,7 @@ protocol DetailModelDelegate {
     func detailModel(mainTasks: [Tasks], mainDoneTasks: [Tasks], mainRookie: String)
 }
 
-class DetailModel {
+final class DetailModel {
     var delegate: DetailModelDelegate?
     
     func fetchMain(of date: String) {

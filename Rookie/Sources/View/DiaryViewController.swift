@@ -9,13 +9,13 @@
 import UIKit
 import FSCalendar
 
-class DiaryViewController: UIViewController {
-    let diaryModel: DiaryModel = DiaryModel()
+final class DiaryViewController: UIViewController {
+    private let diaryModel: DiaryModel = DiaryModel()
     
-    var eventDates: [String] = [String]()
-    var detailView: UIView = UIView()
-    var calendar: FSCalendar = FSCalendar()
-    var calendarHeightConstraint: NSLayoutConstraint!
+    private var eventDates: [String] = [String]()
+    private var detailView: UIView = UIView()
+    private var calendar: FSCalendar = FSCalendar()
+    private var calendarHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,9 +161,9 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func remove() {
-        for vc in children {
-            vc.view.removeFromSuperview()
-            vc.removeFromParent()
+        children.forEach {
+            $0.view.removeFromSuperview()
+            $0.removeFromParent()
         }
     }
 }

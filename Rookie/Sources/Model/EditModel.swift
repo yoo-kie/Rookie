@@ -12,7 +12,7 @@ protocol EditModelDelegate {
     func editModel(todayTasks: [Tasks])
 }
 
-class EditModel {
+final class EditModel {
     var delegate: EditModelDelegate?
     
     func fetchTodayTasks(of date: String) {

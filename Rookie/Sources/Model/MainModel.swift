@@ -14,7 +14,7 @@ protocol MainModelDelegate {
     func mainModel(mainRookie: String)
 }
 
-class MainModel {
+final class MainModel {
     var delegate: MainModelDelegate?
     
     func fetchMain(of date: String) {

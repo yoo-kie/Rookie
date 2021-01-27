@@ -24,10 +24,10 @@ class Tasks: Object {
     }
 }
 
-class DBManager {
+final class DBManager {
     static let shared = DBManager()
     
-    var realm: Realm {
+    private var realm: Realm {
         guard let realm = Realm.safeInit() else {
             return self.realm
         }

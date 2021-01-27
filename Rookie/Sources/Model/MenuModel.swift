@@ -12,7 +12,7 @@ protocol MenuModelDelegate {
     func menuModel(rookies: [String])
 }
 
-class MenuModel {
+final class MenuModel {
     var delegate: MenuModelDelegate?
     
     func fetchRookieCollection(of today: String) {
