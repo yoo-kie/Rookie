@@ -338,11 +338,11 @@
                     <connections>
                         <outlet property="allDatesLabel" destination="6Bg-H3-D8a" id="upn-HI-UWA"/>
                         <outlet property="diaryBtn" destination="1Xk-VQ-eHq" id="kbo-X6-aIr"/>
-                        <outlet property="mainDateSC" destination="oSx-Jb-9Cv" id="1JR-hB-eFX"/>
-                        <outlet property="oneWordLabel" destination="yQT-55-7md" id="qod-Th-AcV"/>
+                        <outlet property="mainListProgressLabel" destination="2v5-KF-eqG" id="1aL-M0-Pdf"/>
+                        <outlet property="mainSegmentedControl" destination="oSx-Jb-9Cv" id="buF-Sg-UH1"/>
                         <outlet property="todayCollectionView" destination="ObI-1E-6N5" id="PC8-v3-FAE"/>
                         <outlet property="todayProgressImage" destination="nsh-gV-Dp9" id="Wuy-I0-mcz"/>
-                        <outlet property="todayProgressLabel" destination="2v5-KF-eqG" id="VOU-H0-tAz"/>
+                        <outlet property="todayProgressLabel" destination="yQT-55-7md" id="Ubw-OZ-uId"/>
                         <outlet property="todayProgressView" destination="2Om-CN-fQF" id="34c-1k-yYl"/>
                     </connections>
                 </viewController>

@@ -8,8 +8,7 @@
 
 import UIKit
 
-class TodayCollectionViewCell: UICollectionViewCell {
-
+final class TodayCollectionViewCell: UICollectionViewCell {
     @IBOutlet var todayView: UIView!
     @IBOutlet var todayLabel: UILabel!
     
@@ -17,5 +16,4 @@ class TodayCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         todayView.layer.cornerRadius = 10
     }
-    
 }

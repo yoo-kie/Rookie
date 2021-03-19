@@ -8,8 +8,7 @@
 
 import UIKit
 
-class DetailCollectionViewCell: UICollectionViewCell {
-
+final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet var detailView: UIView!
     @IBOutlet var detailLabel: UILabel!
     
