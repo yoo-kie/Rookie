@@ -1,8 +1,8 @@
 # Rookie
-Rookie - checklist
-캐릭터 성장형 체크리스트 iOS 어플리케이션
+### Rookie - checklist
+### 캐릭터 성장형 체크리스트 iOS 어플리케이션
 
-Rookie of the day-! 체크리스트를 달성하여 '오늘의 루키'를 키워보세요-!
+**Rookie of the day-! 체크리스트를 달성하여 '오늘의 루키'를 키워보세요-!**
 
 1. 당신의 하루 체크리스트를 심플하게 작성할 수 있습니다.
 
