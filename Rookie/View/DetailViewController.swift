@@ -59,7 +59,7 @@ final class DetailViewController: UIViewController {
         
         var imageName = "\(mainRookie)_"
             
-        let level = (4.0 &/ Float(totalCount)) * Float(doneCount)
+        let level = (4.0 / Float(totalCount)) * Float(doneCount)
         switch level {
         case 0..<1 :
             finishWordLabel.text = "레벨 1"
@@ -86,7 +86,7 @@ final class DetailViewController: UIViewController {
         }
             
         UIView.animate(withDuration: 1.0) {
-            self.detailProgressView.setProgress(Float(doneCount) &/ Float(totalCount), animated: true)
+            self.detailProgressView.setProgress(Float(doneCount) / Float(totalCount), animated: true)
         }
         
         self.detailProgressLabel.text = "\(doneCount)/\(totalCount)"

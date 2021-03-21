@@ -169,7 +169,7 @@
                                                     <segment title="내일"/>
                                                 </segments>
                                                 <connections>
-                                                    <action selector="selectMainListDate:" destination="BYZ-38-t0r" eventType="valueChanged" id="Aao-4L-hSy"/>
+                                                    <action selector="touchTodoSegementedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="d6a-wq-zLm"/>
                                                 </connections>
                                             </segmentedControl>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="리스트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUg-EQ-Ldw">
@@ -336,19 +336,19 @@
                     </navigationItem>
                     <size key="freeformSize" width="414" height="880"/>
                     <connections>
-                        <outlet property="allDatesLabel" destination="6Bg-H3-D8a" id="upn-HI-UWA"/>
-                        <outlet property="diaryBtn" destination="1Xk-VQ-eHq" id="kbo-X6-aIr"/>
-                        <outlet property="mainListProgressLabel" destination="2v5-KF-eqG" id="1aL-M0-Pdf"/>
-                        <outlet property="mainSegmentedControl" destination="oSx-Jb-9Cv" id="buF-Sg-UH1"/>
-                        <outlet property="todayCollectionView" destination="ObI-1E-6N5" id="PC8-v3-FAE"/>
-                        <outlet property="todayProgressImage" destination="nsh-gV-Dp9" id="Wuy-I0-mcz"/>
-                        <outlet property="todayProgressLabel" destination="yQT-55-7md" id="Ubw-OZ-uId"/>
-                        <outlet property="todayProgressView" destination="2Om-CN-fQF" id="34c-1k-yYl"/>
+                        <outlet property="diaryButton" destination="1Xk-VQ-eHq" id="Yz5-g2-Ldk"/>
+                        <outlet property="diaryLabel" destination="6Bg-H3-D8a" id="RiF-eZ-Y6w"/>
+                        <outlet property="todayImageView" destination="nsh-gV-Dp9" id="vbU-Eo-eWE"/>
+                        <outlet property="todayLabel" destination="yQT-55-7md" id="3Nh-fE-W45"/>
+                        <outlet property="todayProgressView" destination="2Om-CN-fQF" id="gg6-m3-X2A"/>
+                        <outlet property="todoCollectionView" destination="ObI-1E-6N5" id="Fj7-P9-rnG"/>
+                        <outlet property="todoProgressLabel" destination="2v5-KF-eqG" id="KRv-Yp-mYn"/>
+                        <outlet property="todoSegmentedControl" destination="oSx-Jb-9Cv" id="zHD-Fw-VEG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1016" y="183.50824587706148"/>
+            <point key="canvasLocation" x="1037" y="129"/>
         </scene>
         <!--Diary View Controller-->
         <scene sceneID="gxl-Iy-cjQ">
@@ -375,7 +375,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IUC-MS-MB9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2109.5999999999999" y="605.84707646176912"/>
+            <point key="canvasLocation" x="1889" y="456"/>
         </scene>
         <!--2020.07.31-->
         <scene sceneID="Ym2-kW-fYO">
@@ -632,7 +632,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="9lN-WG-agQ"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="3xi-7g-75V"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iML-hh-uAD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
