@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 final class MenuViewController: UIViewController {
     private let menuModel = MenuModel()
@@ -46,9 +47,11 @@ final class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: MenuModelDelegate {
-    func menuModel(rookies: [String]) {
-        self.rookies = rookies
+    
+    func menuModel(rookies: [Rookie]) {
+        self.rookies = rookies.map { $0.rawValue }
     }
+    
 }
 
 extension MenuViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {

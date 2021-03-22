@@ -16,7 +16,7 @@ final class EditModel {
     var delegate: EditModelDelegate?
     
     func fetchTodayTasks(of date: String) {
-        let todayTasks = DBManager.shared.selectTasksWithDate(date)
+        let todayTasks = DBManager.shared.selectTasks(with: date)
         delegate?.editModel(todayTasks: todayTasks)
     }
     
@@ -24,7 +24,7 @@ final class EditModel {
         if !(title?.trimmingCharacters(in: .whitespaces).isEmpty)! {
             let task = Tasks()
             task.id = DBManager.shared.incrementTaskID()
-            task.character = DBManager.shared.todayRookie
+            task.character = Rookie.todayRookie
             task.date = date
             task.title = title ?? " "
             task.done_yn = "N"

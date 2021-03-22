@@ -9,26 +9,26 @@
 import Foundation
 
 protocol MenuModelDelegate {
-    func menuModel(rookies: [String])
+    func menuModel(rookies: [Rookie])
 }
 
 final class MenuModel {
     var delegate: MenuModelDelegate?
     
     func fetchRookieCollection(of today: String) {
-        var rookies = DBManager.shared.rookiesCollection
+        var rookies: [Rookie] = []
         
         let endIndex = today.index(today.startIndex, offsetBy: 7)
         let month = String(today[today.startIndex..<endIndex])
-        let thisMonthDates = DBManager.shared.getDates(of: month)
+        let thisMonthDates = DBManager.shared.fetchDates(on: month)
         
         switch thisMonthDates.count {
         case 0..<10:
-            rookies = Array(arrayLiteral: rookies[0])
+            rookies.append(.R1)
         case 10..<20:
-            rookies = Array(rookies[0...1])
+            rookies.append(contentsOf: [.R1, .R2])
         default:
-            rookies = Array(rookies[0...2])
+            rookies.append(contentsOf: [.R1, .R2, .R3])
         }
         
         delegate?.menuModel(rookies: rookies)

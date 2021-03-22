@@ -24,12 +24,11 @@ final class ViewController: BaseViewController {
     @IBOutlet var todoSegmentedControl: UISegmentedControl! = UISegmentedControl(
         items: Todo.allCases.map { $0.rawValue }
     )
-    @IBOutlet var todoProgressLabel: UILabel!
+    @IBOutlet var todayProgressLabel: UILabel!
     @IBOutlet var todoCollectionView: UICollectionView!
     
     private var todoTasks: [Tasks] = [Tasks]()
     private var todoDoneTasks: [Tasks] = [Tasks]()
-    private var rookie: String = ""
     private var todayDate: String = ""
     private var tomorrowDate: String = ""
     private var currentSegmentedControl: Todo {
@@ -58,7 +57,7 @@ final class ViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchTodo()
+        fetchTasks()
     }
     
     override func prepare(
@@ -77,7 +76,7 @@ final class ViewController: BaseViewController {
     }
     
     @IBAction func touchTodoSegementedControl(_ sender: UISegmentedControl) {
-        fetchTodo()
+        fetchTasks()
     }
     
     private func configureCollectionView() {
@@ -89,7 +88,7 @@ final class ViewController: BaseViewController {
         )
     }
     
-    func setDate() {
+    private func setDate() {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Constant.Date.locale)
         formatter.dateFormat = Constant.Date.dataFormat
@@ -101,7 +100,7 @@ final class ViewController: BaseViewController {
         tomorrowDate = formatter.string(from: date)
     }
     
-    func setMainUI() {
+    private func setMainUI() {
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         navigationItem.title = todayDate
         
@@ -110,23 +109,22 @@ final class ViewController: BaseViewController {
         addLongPressOnCollectionView()
     }
     
-    func fetchTodo() {
+    private func fetchTasks() {
         switch currentSegmentedControl {
         case .today:
-            mainModel.fetchMain(of: todayDate)
+            mainModel.fetchTasks(with: todayDate)
         case .tomorrow:
-            mainModel.fetchMain(of: tomorrowDate)
+            mainModel.fetchTasks(with: tomorrowDate)
         }
     }
     
-    func updateToday() {
+    private func updateRookie() {
         let totalCount = todoTasks.count
         let doneCount = todoDoneTasks.count
         
         if currentSegmentedControl == .today {
-            let level: Rookie = fetchLevel(total: totalCount, done: doneCount)
+            let level: Level = Level.fetchLevel(total: totalCount, done: doneCount)
             
-            Rookie.name = "\(rookie)_"
             todayLabel.text = level.labelText
             todayImageView.image = level.image
             
@@ -140,33 +138,14 @@ final class ViewController: BaseViewController {
             setWidgetData(
                 doneCount: doneCount,
                 totalCount: totalCount,
-                imageName: Rookie.name
+                imageName: "\(Rookie.todayRookie)_"
             )
         }
         
-        todoProgressLabel.text = "\(doneCount)/\(totalCount)"
+        todayProgressLabel.text = "\(doneCount)/\(totalCount)"
     }
     
-    func fetchLevel(total: Int, done: Int) -> Rookie {
-        let level = (4.0 / Float(total)) * Float(done)
-        
-        switch level {
-        case 0..<1:
-            return .L1
-        case 1..<2:
-            return .L2
-        case 2..<3:
-            return .L3
-        case 3..<4:
-            return .L4
-        case 4:
-            return .L5
-        default:
-            return .L1
-        }
-    }
-    
-    func setWidgetData(
+    private func setWidgetData(
         doneCount: Int,
         totalCount: Int,
         imageName: String
@@ -187,21 +166,18 @@ final class ViewController: BaseViewController {
 extension ViewController: MainModelDelegate {
     
     func mainModel(
-        mainTasks tasks: [Tasks],
-        mainDoneTasks doneTasks: [Tasks]
+        todoTasks tasks: [Tasks],
+        todoDoneTasks doneTasks: [Tasks]
     ) {
         todoTasks = tasks
         todoDoneTasks = doneTasks
-        updateToday()
+        
+        updateRookie()
         todoCollectionView.reloadData()
     }
     
-    func mainModel(thisMonthDates: [String]) {
-        diaryLabel.text = "\(thisMonthDates.count)일"
-    }
-    
-    func mainModel(mainRookie: String) {
-        rookie = mainRookie
+    func mainModel(dates: [String]) {
+        diaryLabel.text = "\(dates.count)일"
     }
     
 }
@@ -223,53 +199,23 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        if collectionView == todoCollectionView {
-            if todoTasks.count == 0 {
-                todoCollectionView.isHidden = true
-            } else {
-                todoCollectionView.isHidden = false
-            }
-            return todoTasks.count
+        if todoTasks.count == 0 {
+            todoCollectionView.isHidden = true
         } else {
-            return 50
+            todoCollectionView.isHidden = false
         }
+        return todoTasks.count
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if collectionView == todoCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath) as? TodayCollectionViewCell else {
-                return TodayCollectionViewCell()
-            }
-            
-            return setTodayCell(cell: cell, indexPath: indexPath)
-        } else {
-            let cell = UICollectionViewCell()
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath) as? TodayCollectionViewCell
+        else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath)
         }
-    }
-    
-    func setTodayCell(
-        cell: TodayCollectionViewCell,
-        indexPath: IndexPath
-    ) -> TodayCollectionViewCell {
-        let todayTasks = todoTasks
-        let task = todayTasks[indexPath.row]
-        let title = task.title
-        let doneYN = task.done_yn
-        
-        cell.todayLabel.text = title
-        
-        if doneYN == "Y" {
-            cell.todayLabel.textColor = .white
-            cell.todayView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        } else {
-            cell.todayLabel.textColor = .black
-            cell.todayView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
-        }
-        
+        cell.bind(tasks: todoTasks, indexPath: indexPath)
         return cell
     }
     
@@ -277,32 +223,23 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        if collectionView == todoCollectionView {
-            let task = todoTasks[indexPath.row]
-            let id = task.id
-            let doneYN = task.done_yn
+        let task = todoTasks[indexPath.row]
+        let id = task.id
+        let doneYN = task.done_yn
             
-            guard let cell = collectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell else {
-                return
-            }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell
+        else { return }
             
-            if doneYN == "N" {
-                cell.todayLabel.textColor = .white
-                cell.todayView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-                let updateData: [String: Any] = ["id": id, "done_yn": "Y"]
-                mainModel.updateTask(of: updateData, completionHandler: nil)
-            } else if doneYN == "Y" {
-                cell.todayLabel.textColor = .black
-                cell.todayView.backgroundColor = #colorLiteral(red: 0.9971911311, green: 0.9418782592, blue: 0.6368385553, alpha: 1)
-                let updateData: [String: Any] = ["id": id, "done_yn": "N"]
-                mainModel.updateTask(of: updateData, completionHandler: nil)
-            }
-            
-            fetchTodo()
-        }
+        cell.update(doneYN: doneYN)
+        
+        let toggle = doneYN == "Y" ? "N" : "Y"
+        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
+        mainModel.updateTask(of: updateData, completionHandler: nil)
+        
+        fetchTasks()
     }
     
-    func addLongPressOnCollectionView() {
+    private func addLongPressOnCollectionView() {
         let gesture = UILongPressGestureRecognizer(
             target: self,
             action: #selector(ViewController.handleLongPress)
@@ -332,7 +269,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
                         
                         let updateData: [String: Any] = ["id": task.id, "date": self.tomorrowDate]
                         self.mainModel.updateTask(of: updateData) {
-                            self.fetchTodo()
+                            self.fetchTasks()
                         }
                     }
                 case .tomorrow:
@@ -342,7 +279,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
                         task.date = self.todayDate
                         let updateData: [String: Any] = ["id": task.id, "date": self.todayDate]
                         self.mainModel.updateTask(of: updateData) {
-                            self.fetchTodo()
+                            self.fetchTasks()
                         }
                     }
                 }

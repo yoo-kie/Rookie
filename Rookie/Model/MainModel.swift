@@ -9,57 +9,50 @@
 import Foundation
 
 protocol MainModelDelegate {
-    func mainModel(mainTasks: [Tasks], mainDoneTasks: [Tasks])
-    func mainModel(thisMonthDates: [String])
-    func mainModel(mainRookie: String)
+    
+    func mainModel(todoTasks: [Tasks], todoDoneTasks: [Tasks])
+    func mainModel(dates: [String])
+    
 }
 
 final class MainModel {
+    
     var delegate: MainModelDelegate?
     
-    func fetchMain(of date: String) {
-        let mainTasks = DBManager.shared.selectTasksWithDate(date)
-        let mainDoneTasks = DBManager.shared.selectDoneTasksWithDate(date)
+    func fetchTasks(with date: String) {
+        let todoTasks = DBManager.shared.selectTasks(with: date)
+        let todoDoneTasks = DBManager.shared.selectDoneTasks(with: date)
         
-        delegate?.mainModel(mainTasks: mainTasks, mainDoneTasks: mainDoneTasks)
+        delegate?.mainModel(todoTasks: todoTasks, todoDoneTasks: todoDoneTasks)
     }
     
     func fetchDates(of today: String) {
         let endIndex = today.index(today.startIndex, offsetBy: 7)
         let month = String(today[today.startIndex..<endIndex])
         
-        let thisMonthDates = DBManager.shared.getDates(of: month)
-        self.setRookie(of: today, thisMonthDates: thisMonthDates)
-        delegate?.mainModel(thisMonthDates: thisMonthDates)
+        let dates = DBManager.shared.fetchDates(on: month)
+        configureTodayRookie(of: today, with: dates)
+        delegate?.mainModel(dates: dates)
     }
     
-    func setRookie(of today: String, thisMonthDates: [String]) {
-        let rookies = DBManager.shared.rookiesCollection
-        var todayRookie: String = ""
-        var rookieVersionCount: Int = 1
-        
-        switch thisMonthDates.count {
-        case 0..<10:
-            todayRookie = rookies[0]
-            rookieVersionCount = 3
-        case 10..<20:
-            todayRookie = rookies[1]
-            rookieVersionCount = 2
-        default:
-            todayRookie = rookies[2]
-            rookieVersionCount = 1
-        }
-        
-        let randomVersion = arc4random_uniform(UInt32(rookieVersionCount)) + 1
-        let todayRookieName = "\(todayRookie)\(randomVersion)"
-        
-        if let rookieName = DBManager.shared.selectCharacterWithDate(today) {
-            DBManager.shared.todayRookie = rookieName
+    func configureTodayRookie(of today: String, with dates: [String]) {
+        if let todayRookie = DBManager.shared.selectRookie(with: today) {
+            Rookie.todayRookie = todayRookie
         } else {
-            DBManager.shared.todayRookie = todayRookieName
+            let rookie = fetchRookie(count: dates.count)
+            Rookie.todayRookie = rookie.fullName
         }
-        
-        delegate?.mainModel(mainRookie: DBManager.shared.todayRookie)
+    }
+    
+    func fetchRookie(count: Int) -> Rookie {
+        switch count {
+        case 0..<10:
+            return .R1
+        case 10..<20:
+            return .R2
+        default:
+            return .R3
+        }
     }
     
     func updateTask(of data: [String: Any], completionHandler: (() -> Void)?) {
@@ -68,13 +61,8 @@ final class MainModel {
         guard let _completionHandler = completionHandler else {
             return
         }
+        
         _completionHandler()
     }
-}
-
-enum UpdateProperty {
-    case character
-    case date
-    case title
-    case done_yn
+    
 }

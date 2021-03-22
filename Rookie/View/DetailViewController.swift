@@ -16,7 +16,6 @@ final class DetailViewController: UIViewController {
     @IBOutlet var detailProgressImage: UIImageView!
     @IBOutlet var detailProgressView: UIProgressView!
     @IBOutlet var detailProgressLabel: UILabel!
-    
     @IBOutlet var detailCollectionView: UICollectionView! = {
         let layout = UICollectionViewLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -54,39 +53,18 @@ final class DetailViewController: UIViewController {
     }
     
     func updateTodayProgress() {
-        let totalCount = self.mainTasks.count
-        let doneCount = self.mainDoneTasks.count
-        
-        var imageName = "\(mainRookie)_"
+        let totalCount = mainTasks.count
+        let doneCount = mainDoneTasks.count
             
-        let level = (4.0 / Float(totalCount)) * Float(doneCount)
-        switch level {
-        case 0..<1 :
-            finishWordLabel.text = "레벨 1"
-            imageName += "1"
-            detailProgressImage.image = UIImage.init(named: imageName)
-        case 1..<2 :
-            finishWordLabel.text = "레벨 2"
-            imageName += "2"
-            detailProgressImage.image = UIImage.init(named: imageName)
-        case 2..<3 :
-            finishWordLabel.text = "레벨 3"
-            imageName += "3"
-            detailProgressImage.image = UIImage.init(named: imageName)
-        case 3..<4 :
-            finishWordLabel.text = "레벨 4"
-            imageName += "4"
-            detailProgressImage.image = UIImage.init(named: imageName)
-        case 4 :
-            finishWordLabel.text = "파이널"
-            imageName += "5"
-            detailProgressImage.image = UIImage.init(named: imageName)
-        default:
-            print("no more level up")
-        }
+        let level = Level.fetchLevel(total: totalCount, done: doneCount)
+        finishWordLabel.text = level.labelText
+        detailProgressImage.image = level.image
             
         UIView.animate(withDuration: 1.0) {
-            self.detailProgressView.setProgress(Float(doneCount) / Float(totalCount), animated: true)
+            self.detailProgressView.setProgress(
+                Float(doneCount) / Float(totalCount),
+                animated: true
+            )
         }
         
         self.detailProgressLabel.text = "\(doneCount)/\(totalCount)"

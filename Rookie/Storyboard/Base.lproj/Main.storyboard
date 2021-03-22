@@ -340,9 +340,9 @@
                         <outlet property="diaryLabel" destination="6Bg-H3-D8a" id="RiF-eZ-Y6w"/>
                         <outlet property="todayImageView" destination="nsh-gV-Dp9" id="vbU-Eo-eWE"/>
                         <outlet property="todayLabel" destination="yQT-55-7md" id="3Nh-fE-W45"/>
+                        <outlet property="todayProgressLabel" destination="2v5-KF-eqG" id="dMx-Nl-171"/>
                         <outlet property="todayProgressView" destination="2Om-CN-fQF" id="gg6-m3-X2A"/>
                         <outlet property="todoCollectionView" destination="ObI-1E-6N5" id="Fj7-P9-rnG"/>
-                        <outlet property="todoProgressLabel" destination="2v5-KF-eqG" id="KRv-Yp-mYn"/>
                         <outlet property="todoSegmentedControl" destination="oSx-Jb-9Cv" id="zHD-Fw-VEG"/>
                     </connections>
                 </viewController>

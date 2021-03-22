@@ -18,7 +18,7 @@
 		AE7B5DB525403B6600FC2F3B /* RookieEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B5DA2254030AD00FC2F3B /* RookieEntryView.swift */; };
 		AE7C2D0A256216FB002EB87B /* Pods_Rookie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7C2D09256216FB002EB87B /* Pods_Rookie.framework */; };
 		AE7C3E5C26073EC5001E4B4A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C3E5B26073EC5001E4B4A /* BaseViewController.swift */; };
-		AE7C3E70260762BB001E4B4A /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C3E6F260762BB001E4B4A /* Common.swift */; };
+		AE7C3E70260762BB001E4B4A /* Rookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C3E6F260762BB001E4B4A /* Rookie.swift */; };
 		AE7C3EA6260778D4001E4B4A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = AE7C3EA5260778D4001E4B4A /* Realm */; };
 		AE7C3EA8260778D4001E4B4A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AE7C3EA7260778D4001E4B4A /* RealmSwift */; };
 		AE7C3EC826077BAE001E4B4A /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = AE7C3EC726077BAE001E4B4A /* FSCalendar */; };
@@ -107,7 +107,7 @@
 		AE7B5DC425414E3200FC2F3B /* RookieWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RookieWidgetExtension.entitlements; sourceTree = "<group>"; };
 		AE7C2D09256216FB002EB87B /* Pods_Rookie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Rookie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7C3E5B26073EC5001E4B4A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		AE7C3E6F260762BB001E4B4A /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		AE7C3E6F260762BB001E4B4A /* Rookie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rookie.swift; sourceTree = "<group>"; };
 		AEC82E96256246F0006DAF70 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		AED91D5024D57AE300D91553 /* Rookie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rookie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AED91D5324D57AE400D91553 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +231,16 @@
 			path = RookieWidget;
 			sourceTree = "<group>";
 		};
+		AE7C3ECD26077FB2001E4B4A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AEF63E732605ADDB008C4FE6 /* TodayCollectionViewCell.swift */,
+				AEF63E752605ADDC008C4FE6 /* DetailCollectionViewCell.swift */,
+				AEF63E742605ADDB008C4FE6 /* CharacterCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		AED91D4724D57AE300D91553 = {
 			isa = PBXGroup;
 			children = (
@@ -309,7 +319,7 @@
 		AEF63E472604EECB008C4FE6 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AE7C3E6F260762BB001E4B4A /* Common.swift */,
+				AE7C3E6F260762BB001E4B4A /* Rookie.swift */,
 				AEF63E492604EF83008C4FE6 /* Constant.swift */,
 			);
 			path = Utils;
@@ -318,10 +328,10 @@
 		AEF63E5D2605ADB2008C4FE6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AEF63E622605ADBF008C4FE6 /* MainModel.swift */,
 				AEF63E602605ADBE008C4FE6 /* DetailModel.swift */,
 				AEF63E612605ADBE008C4FE6 /* DiaryModel.swift */,
 				AEF63E5E2605ADBC008C4FE6 /* EditModel.swift */,
-				AEF63E622605ADBF008C4FE6 /* MainModel.swift */,
 				AEF63E5F2605ADBD008C4FE6 /* MenuModel.swift */,
 			);
 			path = Model;
@@ -330,12 +340,10 @@
 		AEF63E702605ADCB008C4FE6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AE7C3ECD26077FB2001E4B4A /* Cell */,
 				AE7C3E5B26073EC5001E4B4A /* BaseViewController.swift */,
 				AEF63E712605ADD9008C4FE6 /* ViewController.swift */,
-				AEF63E732605ADDB008C4FE6 /* TodayCollectionViewCell.swift */,
 				AEF63E772605ADDE008C4FE6 /* DetailViewController.swift */,
-				AEF63E742605ADDB008C4FE6 /* CharacterCollectionViewCell.swift */,
-				AEF63E752605ADDC008C4FE6 /* DetailCollectionViewCell.swift */,
 				AEF63E782605ADDE008C4FE6 /* DiaryViewController.swift */,
 				AEF63E762605ADDD008C4FE6 /* EditViewController.swift */,
 				AEF63E722605ADDA008C4FE6 /* MenuViewController.swift */,
@@ -645,7 +653,7 @@
 				AEF63E7C2605ADDE008C4FE6 /* CharacterCollectionViewCell.swift in Sources */,
 				AEF63E802605ADDE008C4FE6 /* DiaryViewController.swift in Sources */,
 				AEF63E672605ADBF008C4FE6 /* MainModel.swift in Sources */,
-				AE7C3E70260762BB001E4B4A /* Common.swift in Sources */,
+				AE7C3E70260762BB001E4B4A /* Rookie.swift in Sources */,
 				AEF63E662605ADBF008C4FE6 /* DiaryModel.swift in Sources */,
 				AEF63E632605ADBF008C4FE6 /* EditModel.swift in Sources */,
 				AEF63E4A2604EF83008C4FE6 /* Constant.swift in Sources */,

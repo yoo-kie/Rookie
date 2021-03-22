@@ -34,9 +34,6 @@ final class DBManager {
         return realm
     }
     
-    var todayRookie: String = ""
-    var rookiesCollection = ["뽀짝이", "뽀록희", "키캡"]
-    
     func incrementTaskID() -> Int {
         return (realm.objects(Tasks.self).max(ofProperty: "id") as Int? ?? 0) + 1
     }
@@ -46,14 +43,14 @@ final class DBManager {
         return result
     }
     
-    func selectTasksWithID(_ idx: Int) -> Tasks {
-        let result = realm.objects(Tasks.self).filter("id = \(idx)").toArray(type: Tasks.self)
+    func selectTasks(with id: Int) -> Tasks {
+        let result = realm.objects(Tasks.self).filter("id = \(id)").toArray(type: Tasks.self)
         print(result)
         
         return result.first!
     }
     
-    func selectTasksWithDate(_ date: String) -> [Tasks] {
+    func selectTasks(with date: String) -> [Tasks] {
         var result = realm.objects(Tasks.self).filter("date = '\(date)'").toArray(type: Tasks.self)
         result.sort { $0.done_yn < $1.done_yn }
         
@@ -65,12 +62,12 @@ final class DBManager {
         return result
     }
     
-    func selectDoneTasksWithDate(_ date: String) -> [Tasks] {
+    func selectDoneTasks(with date: String) -> [Tasks] {
         let result = realm.objects(Tasks.self).filter("date = '\(date)' and done_yn = 'Y'").toArray(type: Tasks.self)
         return result
     }
     
-    func selectCharacterWithDate(_ date: String) -> String? {
+    func selectRookie(with date: String) -> String? {
         let result = realm.objects(Tasks.self).filter("date = '\(date)'").distinct(by: ["character"])
         return result.first?.character
     }
@@ -87,15 +84,15 @@ final class DBManager {
         }
     }
     
-    func updateTaskDoneYN(_ idx: Int, _ done_yn: String) {
-        let task = self.selectTasksWithID(idx)
+    func updateTaskDoneYN(_ id: Int, _ done_yn: String) {
+        let task = self.selectTasks(with: id)
         realm.safeWrite {
             task.done_yn = done_yn
         }
     }
 
-    func updateTaskDate(_ idx: Int, _ date: String) {
-        let task = self.selectTasksWithID(idx)
+    func updateTaskDate(_ id: Int, _ date: String) {
+        let task = self.selectTasks(with: id)
         realm.safeWrite {
             task.date = date
         }
@@ -113,7 +110,7 @@ final class DBManager {
     }
     
     // 파라미터로 들어온 월의 일자들 반환
-    func getDates(of month: String) -> [String] {
+    func fetchDates(on month: String) -> [String] {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy.MM.dd eee"

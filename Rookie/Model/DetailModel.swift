@@ -16,9 +16,9 @@ final class DetailModel {
     var delegate: DetailModelDelegate?
     
     func fetchMain(of date: String) {
-        let mainTasks = DBManager.shared.selectTasksWithDate(date)
-        let mainDoneTasks = DBManager.shared.selectDoneTasksWithDate(date)
-        guard let mainRookie = DBManager.shared.selectCharacterWithDate(date) else {
+        let mainTasks = DBManager.shared.selectTasks(with: date)
+        let mainDoneTasks = DBManager.shared.selectDoneTasks(with: date)
+        guard let mainRookie = DBManager.shared.selectRookie(with: date) else {
             return
         }
         delegate?.detailModel(mainTasks: mainTasks, mainDoneTasks: mainDoneTasks, mainRookie: mainRookie)
