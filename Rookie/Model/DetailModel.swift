@@ -9,18 +9,23 @@
 import Foundation
 
 protocol DetailModelDelegate {
+    
     func detailModel(mainTasks: [Tasks], mainDoneTasks: [Tasks], mainRookie: String)
+    
 }
 
 final class DetailModel {
+    
     var delegate: DetailModelDelegate?
     
     func fetchMain(of date: String) {
         let mainTasks = DBManager.shared.selectTasks(with: date)
         let mainDoneTasks = DBManager.shared.selectDoneTasks(with: date)
+        
         guard let mainRookie = DBManager.shared.selectRookie(with: date) else {
             return
         }
+        
         delegate?.detailModel(mainTasks: mainTasks, mainDoneTasks: mainDoneTasks, mainRookie: mainRookie)
     }
     
@@ -30,6 +35,8 @@ final class DetailModel {
         guard let _completionHandler = completionHandler else {
             return
         }
+        
         _completionHandler()
     }
+    
 }

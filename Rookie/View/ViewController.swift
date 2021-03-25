@@ -11,11 +11,6 @@ import WidgetKit
 
 final class ViewController: BaseViewController {
     
-    enum Todo: String, CaseIterable {
-        case today = "오늘"
-        case tomorrow = "내일"
-    }
-    
     @IBOutlet var todayLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
     @IBOutlet var todayProgressView: UIProgressView!
@@ -104,7 +99,7 @@ final class ViewController: BaseViewController {
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         navigationItem.title = todayDate
         
-        diaryButton.layer.cornerRadius = Constant.Button.cornerRadius
+        diaryButton.layer.cornerRadius = Constant.Layer.cornerRadius
         
         addLongPressOnCollectionView()
     }
@@ -239,6 +234,10 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         fetchTasks()
     }
     
+}
+
+extension ViewController {
+    
     private func addLongPressOnCollectionView() {
         let gesture = UILongPressGestureRecognizer(
             target: self,
@@ -248,52 +247,47 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state != .ended {
-            return
-        }
-
+        if gestureRecognizer.state != .ended { return }
         let location = gestureRecognizer.location(in: todoCollectionView)
         
         if let indexPath: IndexPath = todoCollectionView.indexPathForItem(at: location) {
-            let task = todoTasks[indexPath.row]
-        
-            if task.done_yn == "N" {
-                let actionSheet = UIAlertController(title: task.title, message: nil, preferredStyle: .actionSheet)
+            action(indexPath: indexPath)
+        } else {
+            actionSheetStyleAlert(message: Constant.Defer.doneMessage)
+        }
+    }
+
+    private func action(indexPath: IndexPath) {
+        let task = todoTasks[indexPath.row]
+    
+        if task.done_yn == "N" {
+            let currentDay: Todo = currentSegmentedControl
+            let date = currentDay == .today ? tomorrowDate : todayDate
+            
+            let actionSheet = UIAlertController(
+                title: task.title,
+                message: nil,
+                preferredStyle: .actionSheet
+            )
+            
+            var action = UIAlertAction()
+            
+            action = UIAlertAction(title: currentDay.actionTitle, style: .default) { [weak self] _ in
+                guard let self = self else { return }
                 
-                var action = UIAlertAction()
-                
-                switch currentSegmentedControl {
-                case .today:
-                    action = UIAlertAction(title: "내일하기", style: .default) { [weak self] _ in
-                        guard let self = self else { return }
-                        
-                        let updateData: [String: Any] = ["id": task.id, "date": self.tomorrowDate]
-                        self.mainModel.updateTask(of: updateData) {
-                            self.fetchTasks()
-                        }
-                    }
-                case .tomorrow:
-                    action = UIAlertAction(title: "오늘하기", style: .default) { [weak self] _ in
-                        guard let self = self else { return }
-                        
-                        task.date = self.todayDate
-                        let updateData: [String: Any] = ["id": task.id, "date": self.todayDate]
-                        self.mainModel.updateTask(of: updateData) {
-                            self.fetchTasks()
-                        }
-                    }
+                let updateData: [String: Any] = ["id": task.id, "date": date]
+                self.mainModel.updateTask(of: updateData) {
+                    self.fetchTasks()
                 }
-                
-                let cancelAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
-                
-                actionSheet.addAction(action)
-                actionSheet.addAction(cancelAction)
-                actionSheet.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
-                
-                present(actionSheet, animated: true, completion: nil)
-            } else {
-                actionSheetStyleAlert(message: "이미 완료된 일입니다-!")
             }
+            
+            let cancelAction = UIAlertAction(title: Constant.Defer.cancel, style: .cancel, handler: nil)
+            
+            actionSheet.addAction(action)
+            actionSheet.addAction(cancelAction)
+            actionSheet.view.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
+            
+            present(actionSheet, animated: true, completion: nil)
         }
     }
     

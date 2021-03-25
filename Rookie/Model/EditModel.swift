@@ -8,19 +8,14 @@
 
 import Foundation
 
-protocol EditModelDelegate {
-    func editModel(todayTasks: [Tasks])
-}
-
 final class EditModel {
-    var delegate: EditModelDelegate?
     
-    func fetchTodayTasks(of date: String) {
+    func fetchTasks(with date: String, completionHandler: @escaping ([Tasks]) -> Void) {
         let todayTasks = DBManager.shared.selectTasks(with: date)
-        delegate?.editModel(todayTasks: todayTasks)
+        completionHandler(todayTasks)
     }
     
-    func addTodayTask(text title: String?, date: String, completionHandler: @escaping () -> ()) {
+    func addTask(text title: String?, date: String, completionHandler: @escaping () -> Void) {
         if !(title?.trimmingCharacters(in: .whitespaces).isEmpty)! {
             let task = Tasks()
             task.id = DBManager.shared.incrementTaskID()
@@ -34,8 +29,9 @@ final class EditModel {
         }
     }
     
-    func deleteTodayTask(with id: Int, completionHandler: @escaping () -> ()) {
+    func deleteTask(with id: Int, completionHandler: @escaping () -> Void) {
         DBManager.shared.deleteTaskWithID(id)
         completionHandler()
     }
+    
 }

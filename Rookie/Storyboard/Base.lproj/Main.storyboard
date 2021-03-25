@@ -38,7 +38,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="Zh9-ni-ZSf" customClass="CharacterCollectionViewCell" customModule="Rookie" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="Zh9-ni-ZSf" customClass="RookiesCollectionViewCell" customModule="Rookie" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.5" width="52" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7bU-Vp-YhH">
@@ -140,8 +140,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Menu" id="QpY-XN-RCR"/>
                     <connections>
-                        <outlet property="characterCollectionView" destination="4HC-7q-9qP" id="A5m-2D-9A1"/>
-                        <outlet property="lbVersion" destination="Kdr-HY-F8d" id="C9k-kQ-1eR"/>
+                        <outlet property="rookiesCollectionView" destination="4HC-7q-9qP" id="B7d-SG-m9R"/>
+                        <outlet property="versionLabel" destination="Kdr-HY-F8d" id="VyX-5w-C3B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeR-DY-sxP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -512,17 +512,17 @@
                     </view>
                     <navigationItem key="navigationItem" title="2020.07.31" id="mMR-Mr-99d"/>
                     <connections>
+                        <outlet property="dateTitleLabel" destination="9AH-j4-Sjo" id="uAf-qU-irv"/>
                         <outlet property="detailCollectionView" destination="hZl-Od-byQ" id="c2p-bF-w2j"/>
-                        <outlet property="detailDateLabel" destination="9AH-j4-Sjo" id="RBP-T8-xSP"/>
-                        <outlet property="detailProgressImage" destination="Gfs-vG-vx4" id="ym9-73-HnS"/>
-                        <outlet property="detailProgressLabel" destination="0Qh-NW-tfD" id="xva-Xg-ZJr"/>
+                        <outlet property="detailImageView" destination="Gfs-vG-vx4" id="HvV-cD-5zf"/>
+                        <outlet property="detailLabel" destination="k45-2e-n7d" id="Fmx-Cc-Un5"/>
+                        <outlet property="detailProgressLabel" destination="0Qh-NW-tfD" id="fJE-7E-ghB"/>
                         <outlet property="detailProgressView" destination="zqs-W2-1r6" id="dH6-Nm-VxI"/>
-                        <outlet property="finishWordLabel" destination="k45-2e-n7d" id="3HG-Zl-Gs0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ym-eL-nSe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2109.5999999999999" y="1295.8020989505249"/>
+            <point key="canvasLocation" x="1889" y="1200"/>
         </scene>
         <!--2020.08.01-->
         <scene sceneID="nPg-Y0-lba">

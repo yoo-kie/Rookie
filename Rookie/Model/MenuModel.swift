@@ -8,21 +8,16 @@
 
 import Foundation
 
-protocol MenuModelDelegate {
-    func menuModel(rookies: [Rookie])
-}
-
 final class MenuModel {
-    var delegate: MenuModelDelegate?
     
-    func fetchRookieCollection(of today: String) {
+    func fetchRookies(with today: String, completionHandler: @escaping ([Rookie]) -> Void) {
         var rookies: [Rookie] = []
         
         let endIndex = today.index(today.startIndex, offsetBy: 7)
         let month = String(today[today.startIndex..<endIndex])
-        let thisMonthDates = DBManager.shared.fetchDates(on: month)
+        let dates = DBManager.shared.fetchDates(on: month)
         
-        switch thisMonthDates.count {
+        switch dates.count {
         case 0..<10:
             rookies.append(.R1)
         case 10..<20:
@@ -31,6 +26,7 @@ final class MenuModel {
             rookies.append(contentsOf: [.R1, .R2, .R3])
         }
         
-        delegate?.menuModel(rookies: rookies)
+        completionHandler(rookies)
     }
+    
 }
