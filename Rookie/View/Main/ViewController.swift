@@ -9,6 +9,7 @@
 import UIKit
 import WidgetKit
 
+// SplashViewController -> Main으로
 final class ViewController: BaseViewController {
     
     @IBOutlet var todayLabel: UILabel!
@@ -22,8 +23,8 @@ final class ViewController: BaseViewController {
     @IBOutlet var todayProgressLabel: UILabel!
     @IBOutlet var todoCollectionView: UICollectionView!
     
-    private var todoTasks: [Tasks] = [Tasks]()
-    private var todoDoneTasks: [Tasks] = [Tasks]()
+    private var todoTasks: [Tasks] = []
+    private var todoDoneTasks: [Tasks] = []
     private var todayDate: String = ""
     private var tomorrowDate: String = ""
     private var currentSegmentedControl: Todo {
@@ -37,6 +38,22 @@ final class ViewController: BaseViewController {
     }
     
     private let mainModel: MainModel = MainModel()
+    lazy var todoUICollectionDataSource = TodoUICollectionDataSource { indexPath in
+        let task = self.todoTasks[indexPath.row]
+        let id = task.id
+        let doneYN = task.done_yn
+        
+        let toggle = doneYN == "Y" ? "N" : "Y"
+        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
+        self.mainModel.updateTask(of: updateData) {
+            self.fetchTasks()
+            
+            guard let cell = self.todoCollectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell
+            else { return }
+            
+            cell.update(doneYN: doneYN)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +62,6 @@ final class ViewController: BaseViewController {
         configureCollectionView()
         setDate()
         setMainUI()
-        
         mainModel.fetchDates(of: todayDate)
     }
     
@@ -75,8 +91,8 @@ final class ViewController: BaseViewController {
     }
     
     private func configureCollectionView() {
-        todoCollectionView.delegate = self
-        todoCollectionView.dataSource = self
+        todoCollectionView.delegate = self.todoUICollectionDataSource
+        todoCollectionView.dataSource = self.todoUICollectionDataSource
         todoCollectionView.register(
             UINib(nibName: "TodayCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "todayCell"
@@ -98,9 +114,7 @@ final class ViewController: BaseViewController {
     private func setMainUI() {
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         navigationItem.title = todayDate
-        
         diaryButton.layer.cornerRadius = Constant.Layer.cornerRadius
-        
         addLongPressOnCollectionView()
     }
     
@@ -150,7 +164,6 @@ final class ViewController: BaseViewController {
                 groupUserDafaults.setValue(doneCount, forKey: "doneCount")
                 groupUserDafaults.setValue(totalCount, forKey: "totalCount")
                 groupUserDafaults.setValue(imageName, forKey: "todayProgressImage")
-                
                 WidgetCenter.shared.reloadTimelines(ofKind: "RookieWidget")
             }
         }
@@ -164,74 +177,15 @@ extension ViewController: MainModelDelegate {
         todoTasks tasks: [Tasks],
         todoDoneTasks doneTasks: [Tasks]
     ) {
+        todoUICollectionDataSource.todoTasks = tasks
         todoTasks = tasks
         todoDoneTasks = doneTasks
-        
         updateRookie()
         todoCollectionView.reloadData()
     }
     
     func mainModel(dates: [String]) {
         diaryLabel.text = "\(dates.count)일"
-    }
-    
-}
-
-extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(
-            width: collectionView.frame.width / 1.5,
-            height: collectionView.frame.height
-        )
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        if todoTasks.count == 0 {
-            todoCollectionView.isHidden = true
-        } else {
-            todoCollectionView.isHidden = false
-        }
-        return todoTasks.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath) as? TodayCollectionViewCell
-        else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "todayCell", for: indexPath)
-        }
-        cell.bind(tasks: todoTasks, indexPath: indexPath)
-        return cell
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        let task = todoTasks[indexPath.row]
-        let id = task.id
-        let doneYN = task.done_yn
-            
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell
-        else { return }
-            
-        cell.update(doneYN: doneYN)
-        
-        let toggle = doneYN == "Y" ? "N" : "Y"
-        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
-        mainModel.updateTask(of: updateData, completionHandler: nil)
-        
-        fetchTasks()
     }
     
 }
@@ -243,11 +197,13 @@ extension ViewController {
             target: self,
             action: #selector(ViewController.handleLongPress)
         )
+        
         todoCollectionView.addGestureRecognizer(gesture)
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state != .ended { return }
+        
         let location = gestureRecognizer.location(in: todoCollectionView)
         
         if let indexPath: IndexPath = todoCollectionView.indexPathForItem(at: location) {
@@ -270,9 +226,7 @@ extension ViewController {
                 preferredStyle: .actionSheet
             )
             
-            var action = UIAlertAction()
-            
-            action = UIAlertAction(title: currentDay.actionTitle, style: .default) { [weak self] _ in
+            let action = UIAlertAction(title: currentDay.actionTitle, style: .default) { [weak self] _ in
                 guard let self = self else { return }
                 
                 let updateData: [String: Any] = ["id": task.id, "date": date]
@@ -281,7 +235,10 @@ extension ViewController {
                 }
             }
             
-            let cancelAction = UIAlertAction(title: Constant.Defer.cancel, style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(
+                title: Constant.Defer.cancel,
+                style: .cancel, handler: nil
+            )
             
             actionSheet.addAction(action)
             actionSheet.addAction(cancelAction)

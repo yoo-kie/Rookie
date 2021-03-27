@@ -19,22 +19,24 @@ class BaseViewController: UIViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if let popoverController = alert.popoverPresentationController {
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(x: self.view.bounds.midX,
-                                                      y: self.view.bounds.midY,
-                                                      width: 0,
-                                                      height: 0)
-                
+                popoverController.sourceView = view
+                popoverController.sourceRect = CGRect(
+                    x: view.bounds.midX,
+                    y: view.bounds.midY,
+                    width: 0,
+                    height: 0
+                )
                 popoverController.permittedArrowDirections = []
-                self.present(alert, animated: true, completion: nil)
+                
+                present(alert, animated: true, completion: nil)
             }
         } else {
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
-        let when = DispatchTime.now() + 1.0
-        DispatchQueue.main.asyncAfter(deadline: when) {
-          alert.dismiss(animated: true, completion: nil)
+        let timer = DispatchTime.now() + 1.0
+        DispatchQueue.main.asyncAfter(deadline: timer) {
+            alert.dismiss(animated: true, completion: nil)
         }
     }
     
