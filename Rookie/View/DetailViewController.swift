@@ -24,6 +24,22 @@ final class DetailViewController: UIViewController {
     private var collectionViewHeight: CGFloat!
     
     private var detailModel: DetailModel = DetailModel()
+    lazy var todoUICollectionDataSource = TodoUICollectionDataSource { indexPath in
+        let task = self.todoTasks[indexPath.row]
+        let id = task.id
+        let doneYN = task.done_yn
+        
+        let toggle = doneYN == "Y" ? "N" : "Y"
+        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
+        self.detailModel.updateTask(of: updateData) {
+            self.fetchTasks()
+            
+            guard let cell = self.detailCollectionView.cellForItem(at: indexPath) as? TodayCollectionViewCell
+            else { return }
+            
+            cell.update(doneYN: doneYN)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +52,11 @@ final class DetailViewController: UIViewController {
     }
     
     func configureCollectionView() {
-        detailCollectionView.delegate = self
-        detailCollectionView.dataSource = self
+        detailCollectionView.delegate = self.todoUICollectionDataSource
+        detailCollectionView.dataSource = self.todoUICollectionDataSource
         detailCollectionView.register(
-            UINib(nibName: "DetailCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "detailCell"
+            UINib(nibName: "TodayCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "todayCell"
         )
         
         collectionViewHeight = self.view.frame.height * 0.15
@@ -81,63 +97,64 @@ final class DetailViewController: UIViewController {
 extension DetailViewController: DetailModelDelegate {
     
     func detailModel(mainTasks: [Tasks], mainDoneTasks: [Tasks], mainRookie: String) {
-        self.todoTasks = mainTasks
-        self.todoDoneTasks = mainDoneTasks
-        self.rookie = mainRookie
+        todoUICollectionDataSource.todoTasks = mainTasks
+        todoTasks = mainTasks
+        todoDoneTasks = mainDoneTasks
+        rookie = mainRookie
         updateRookie()
-        self.detailCollectionView.reloadData()
+        detailCollectionView.reloadData()
     }
     
 }
 
-extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 1.5, height: collectionView.frame.height)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return todoTasks.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath)
-        }
-        
-        cell.bind(tasks: todoTasks, indexPath: indexPath)
-        
-        return cell
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        let task = todoTasks[indexPath.row]
-        let id = task.id
-        let doneYN = task.done_yn
-        
-        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell
-        else { return }
-            
-        cell.update(doneYN: doneYN)
-        
-        let toggle = doneYN == "Y" ? "N" : "Y"
-        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
-        detailModel.updateTask(of: updateData, completionHandler: nil)
-        
-        fetchTasks()
-    }
-    
-}
+//extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        sizeForItemAt indexPath: IndexPath
+//    ) -> CGSize {
+//        return CGSize(width: collectionView.frame.width / 1.5, height: collectionView.frame.height)
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        numberOfItemsInSection section: Int
+//    ) -> Int {
+//        return todoTasks.count
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        cellForItemAt indexPath: IndexPath
+//    ) -> UICollectionViewCell {
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
+//            return collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath)
+//        }
+//
+//        cell.bind(tasks: todoTasks, indexPath: indexPath)
+//
+//        return cell
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        didSelectItemAt indexPath: IndexPath
+//    ) {
+//        let task = todoTasks[indexPath.row]
+//        let id = task.id
+//        let doneYN = task.done_yn
+//
+//        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell
+//        else { return }
+//
+//        cell.update(doneYN: doneYN)
+//
+//        let toggle = doneYN == "Y" ? "N" : "Y"
+//        let updateData: [String: Any] = ["id": id, "done_yn": toggle]
+//        detailModel.updateTask(of: updateData, completionHandler: nil)
+//
+//        fetchTasks()
+//    }
+//
+//}
