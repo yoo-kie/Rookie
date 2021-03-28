@@ -48,6 +48,7 @@ final class MenuViewController: UIViewController {
             forCellWithReuseIdentifier: "rookiesCell"
         )
     }
+    
 }
 
 extension MenuViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {

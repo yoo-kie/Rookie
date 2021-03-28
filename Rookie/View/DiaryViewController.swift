@@ -10,6 +10,7 @@ import UIKit
 import FSCalendar
 
 final class DiaryViewController: UIViewController {
+    
     private let diaryModel: DiaryModel = DiaryModel()
     
     private var eventDates: [String] = [String]()
@@ -20,8 +21,10 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        diaryModel.delegate = self
-        diaryModel.fetchEventDates()
+        diaryModel.fetchEventDates() { [weak self] dates in
+            guard let self = self else { return }
+            self.eventDates = dates
+        }
         
         self.setCalendar()
         self.setDetailView()
@@ -100,15 +103,11 @@ final class DiaryViewController: UIViewController {
             return gradientLineImage
         }()
     }
-}
-
-extension DiaryViewController: DiaryModelDelegate {
-    func diaryModel(eventDates: [String]) {
-        self.eventDates = eventDates
-    }
+    
 }
 
 extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
+    
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         self.calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
@@ -166,4 +165,5 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
             $0.removeFromParent()
         }
     }
+
 }

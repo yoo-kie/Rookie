@@ -9,14 +9,16 @@
 import Foundation
 
 protocol DiaryModelDelegate {
+    
     func diaryModel(eventDates: [String])
+    
 }
 
 final class DiaryModel {
-    var delegate: DiaryModelDelegate?
     
-    func fetchEventDates() {
+    func fetchEventDates(completionHandler: @escaping ([String]) -> Void) {
         let eventDates = DBManager.shared.getAllDates()
-        delegate?.diaryModel(eventDates: eventDates)
+        completionHandler(eventDates)
     }
+    
 }

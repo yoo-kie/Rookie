@@ -58,11 +58,12 @@ final class ViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mainModel.delegate = self
         configureCollectionView()
         setDate()
         setMainUI()
-        mainModel.fetchDates(of: todayDate)
+        mainModel.fetchDates(of: todayDate) { dates in
+            self.diaryLabel.text = "\(dates.count)일"
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,19 +72,36 @@ final class ViewController: BaseViewController {
         fetchTasks()
     }
     
-    override func prepare(
-        for segue: UIStoryboardSegue,
-        sender: Any?
-    ) {
+    @IBAction func tapEditButton(_ sender: UIButton) {
         guard let date = navigationItem.title else { return }
         
-        let destinationVC = segue.destination
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let editVC = storyboard.instantiateViewController(identifier: "EditViewController") as? EditViewController
+        else { return }
         
-        if let editVC = destinationVC as? EditViewController {
-            editVC.editDate = date
-        } else if let menuVC = destinationVC as? MenuViewController {
-            menuVC.menuDate = date
-        }
+        editVC.editDate = date
+        
+        navigationController?.pushViewController(editVC, animated: true)
+    }
+    
+    @IBAction func tapMenuButton(_ sender: UIBarButtonItem) {
+        guard let date = navigationItem.title else { return }
+        
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let menuVC = storyboard.instantiateViewController(identifier: "MenuViewController") as? MenuViewController
+        else { return }
+        
+        menuVC.menuDate = date
+        
+        navigationController?.pushViewController(menuVC, animated: true)
+    }
+    
+    @IBAction func tapDiaryButton(_ sender: UIButton) {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let diaryVC = storyboard.instantiateViewController(identifier: "DiaryViewController") as? DiaryViewController
+        else { return }
+        
+        navigationController?.pushViewController(diaryVC, animated: true)
     }
     
     @IBAction func touchTodoSegementedControl(_ sender: UISegmentedControl) {
@@ -119,11 +137,20 @@ final class ViewController: BaseViewController {
     }
     
     private func fetchTasks() {
+        var date: String
         switch currentSegmentedControl {
         case .today:
-            mainModel.fetchTasks(with: todayDate)
+            date = todayDate
         case .tomorrow:
-            mainModel.fetchTasks(with: tomorrowDate)
+            date = tomorrowDate
+        }
+        
+        mainModel.fetchTasks(with: date) { (tasks, doneTasks) in
+            self.todoUICollectionDataSource.todoTasks = tasks
+            self.todoTasks = tasks
+            self.todoDoneTasks = doneTasks
+            self.updateRookie()
+            self.todoCollectionView.reloadData()
         }
     }
     
@@ -167,25 +194,6 @@ final class ViewController: BaseViewController {
                 WidgetCenter.shared.reloadTimelines(ofKind: "RookieWidget")
             }
         }
-    }
-    
-}
-
-extension ViewController: MainModelDelegate {
-    
-    func mainModel(
-        todoTasks tasks: [Tasks],
-        todoDoneTasks doneTasks: [Tasks]
-    ) {
-        todoUICollectionDataSource.todoTasks = tasks
-        todoTasks = tasks
-        todoDoneTasks = doneTasks
-        updateRookie()
-        todoCollectionView.reloadData()
-    }
-    
-    func mainModel(dates: [String]) {
-        diaryLabel.text = "\(dates.count)일"
     }
     
 }

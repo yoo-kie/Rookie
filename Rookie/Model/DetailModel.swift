@@ -8,25 +8,21 @@
 
 import Foundation
 
-protocol DetailModelDelegate {
-    
-    func detailModel(mainTasks: [Tasks], mainDoneTasks: [Tasks], mainRookie: String)
-    
-}
-
 final class DetailModel {
     
-    var delegate: DetailModelDelegate?
-    
-    func fetchMain(of date: String) {
+    func fetchTasks(of date: String, completionHandler: @escaping ([Tasks], [Tasks]) -> Void) {
         let mainTasks = DBManager.shared.selectTasks(with: date)
         let mainDoneTasks = DBManager.shared.selectDoneTasks(with: date)
         
+        completionHandler(mainTasks, mainDoneTasks)
+    }
+    
+    func fetchRookie(of date: String, completionHandler: @escaping (String) -> Void) {
         guard let mainRookie = DBManager.shared.selectRookie(with: date) else {
             return
         }
         
-        delegate?.detailModel(mainTasks: mainTasks, mainDoneTasks: mainDoneTasks, mainRookie: mainRookie)
+        completionHandler(mainRookie)
     }
     
     func updateTask(of data: [String: Any], completionHandler: (() -> Void)?) {

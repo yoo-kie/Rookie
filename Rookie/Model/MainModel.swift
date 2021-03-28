@@ -17,22 +17,20 @@ protocol MainModelDelegate {
 
 final class MainModel {
     
-    var delegate: MainModelDelegate?
-    
-    func fetchTasks(with date: String) {
+    func fetchTasks(with date: String, completionHandler: @escaping ([Tasks], [Tasks]) -> Void) {
         let todoTasks = DBManager.shared.selectTasks(with: date)
         let todoDoneTasks = DBManager.shared.selectDoneTasks(with: date)
         
-        delegate?.mainModel(todoTasks: todoTasks, todoDoneTasks: todoDoneTasks)
+        completionHandler(todoTasks, todoDoneTasks)
     }
     
-    func fetchDates(of today: String) {
+    func fetchDates(of today: String, completionHandler: @escaping ([String]) -> Void) {
         let endIndex = today.index(today.startIndex, offsetBy: 7)
         let month = String(today[today.startIndex..<endIndex])
         
         let dates = DBManager.shared.fetchDates(on: month)
         configureTodayRookie(of: today, with: dates)
-        delegate?.mainModel(dates: dates)
+        completionHandler(dates)
     }
     
     func configureTodayRookie(of today: String, with dates: [String]) {
@@ -55,14 +53,9 @@ final class MainModel {
         }
     }
     
-    func updateTask(of data: [String: Any], completionHandler: (() -> Void)?) {
+    func updateTask(of data: [String: Any], completionHandler: (() -> Void)) {
         DBManager.shared.updateTask(data)
-        
-        guard let _completionHandler = completionHandler else {
-            return
-        }
-        
-        _completionHandler()
+        completionHandler()
     }
     
 }
