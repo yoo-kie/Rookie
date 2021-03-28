@@ -16,6 +16,12 @@ final class EditViewController: BaseViewController {
     var todayTasks: [Tasks] = []
     
     private let editModel: EditModel = EditModel()
+    lazy var editUITableViewDataSource = EditUITableViewDataSource { id in
+        self.editModel.deleteTask(with: id) { [weak self] in
+            guard let self = self else { return }
+            self.reloadTableViewUI()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +59,8 @@ final class EditViewController: BaseViewController {
     }
     
     private func configureTableView() {
-        editTableView.delegate = self
-        editTableView.dataSource = self
+        editTableView.delegate = editUITableViewDataSource
+        editTableView.dataSource = editUITableViewDataSource
         editTableView.register(
             UINib(nibName: "EditTableViewCell", bundle: nil),
             forCellReuseIdentifier: "editCell"
@@ -65,6 +71,7 @@ final class EditViewController: BaseViewController {
         editModel.fetchTasks(with: editDate) { [weak self] tasks in
             guard let self = self else { return }
             self.todayTasks = tasks
+            self.editUITableViewDataSource.todayTasks = tasks
             self.editTableView.reloadData()
             self.configureTableViewHeight()
         }
@@ -76,52 +83,6 @@ final class EditViewController: BaseViewController {
         }
         
         editTableView.layoutIfNeeded()
-    }
-    
-}
-
-// MARK: - TableView Delegation & DataSource
-
-extension EditViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        return todayTasks.count
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath) as? EditTableViewCell else {
-            return tableView.dequeueReusableCell(withIdentifier: "editCell", for: indexPath)
-        }
-        
-        cell.bind(title: todayTasks[indexPath.row].title)
-        
-        return cell
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        canEditRowAt indexPath: IndexPath
-    ) -> Bool {
-        return true
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath
-    ) {
-        if editingStyle == .delete {
-            editModel.deleteTask(with: self.todayTasks[indexPath.row].id) { [weak self] in
-                guard let self = self else { return }
-                self.reloadTableViewUI()
-            }
-        }
     }
     
 }

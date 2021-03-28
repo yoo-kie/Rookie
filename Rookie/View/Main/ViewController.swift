@@ -146,8 +146,8 @@ final class ViewController: BaseViewController {
         }
         
         mainModel.fetchTasks(with: date) { (tasks, doneTasks) in
-            self.todoUICollectionDataSource.todoTasks = tasks
             self.todoTasks = tasks
+            self.todoUICollectionDataSource.todoTasks = tasks
             self.todoDoneTasks = doneTasks
             self.updateRookie()
             self.todoCollectionView.reloadData()
