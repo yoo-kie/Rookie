@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="he0-up-p52">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="he0-up-p52">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -160,7 +160,7 @@
                                 <rect key="frame" x="0.0" y="96" width="414" height="784"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ITj-76-YnK">
-                                        <rect key="frame" x="20" y="517" width="180" height="30"/>
+                                        <rect key="frame" x="20" y="517" width="212.5" height="30"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oSx-Jb-9Cv">
                                                 <rect key="frame" x="0.0" y="0.0" width="83" height="31"/>
@@ -185,9 +185,16 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n0e-TG-NKL">
-                                                <rect key="frame" x="162.5" y="0.0" width="17.5" height="30"/>
+                                                <rect key="frame" x="162.5" y="0.0" width="50" height="30"/>
+                                                <color key="backgroundColor" red="0.68938721631408184" green="0.78083359771573602" blue="0.63027665921308818" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="B2Y-Rk-mJV"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="tintColor" systemColor="systemGrayColor"/>
-                                                <state key="normal" image="pencil" catalog="system"/>
+                                                <state key="normal" title="Write">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="tapEditButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QU0-ke-HtG"/>
                                                 </connections>
@@ -644,7 +651,6 @@
         <image name="add" width="128" height="128"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="menu" width="16" height="16"/>
-        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="뽀짝이1" width="2048" height="2048"/>
         <namedColor name="BlackColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
