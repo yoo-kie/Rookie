@@ -57,18 +57,18 @@ enum Level {
         }
     }
     
-    var image: UIImage? {
+    var imageName: String {
         switch self {
         case .L1:
-            return UIImage.init(named: "\(Rookie.todayRookie)_1")
+            return "\(Rookie.todayRookie)_1"
         case .L2:
-            return UIImage.init(named: "\(Rookie.todayRookie)_2")
+            return "\(Rookie.todayRookie)_2"
         case .L3:
-            return UIImage.init(named: "\(Rookie.todayRookie)_3")
+            return "\(Rookie.todayRookie)_3"
         case .L4:
-            return UIImage.init(named: "\(Rookie.todayRookie)_4")
+            return "\(Rookie.todayRookie)_4"
         case .L5:
-            return UIImage.init(named: "\(Rookie.todayRookie)_5")
+            return "\(Rookie.todayRookie)_5"
         }
     }
     

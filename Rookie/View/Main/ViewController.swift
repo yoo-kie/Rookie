@@ -21,6 +21,7 @@ final class ViewController: BaseViewController {
         items: Todo.allCases.map { $0.rawValue }
     )
     @IBOutlet var todayProgressLabel: UILabel!
+    @IBOutlet var editButton: UIButton!
     @IBOutlet var todoCollectionView: UICollectionView!
     
     private var todoTasks: [Tasks] = []
@@ -132,6 +133,7 @@ final class ViewController: BaseViewController {
     private func setMainUI() {
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
         navigationItem.title = todayDate
+        editButton.layer.cornerRadius = Constant.Layer.cornerRadius
         diaryButton.layer.cornerRadius = Constant.Layer.cornerRadius
         addLongPressOnCollectionView()
     }
@@ -162,19 +164,26 @@ final class ViewController: BaseViewController {
             let level: Level = Level.fetchLevel(total: totalCount, done: doneCount)
             
             todayLabel.text = level.labelText
-            todayImageView.image = level.image
+            todayImageView.image = UIImage(named: level.imageName)
             
-            UIView.animate(withDuration: 1.0) {
+            if doneCount == 0 || totalCount == 0 {
                 self.todayProgressView.setProgress(
-                    Float(doneCount) / Float(totalCount),
+                    .zero,
                     animated: true
                 )
+            } else {
+                UIView.animate(withDuration: 1.0) {
+                    self.todayProgressView.setProgress(
+                        Float(doneCount) / Float(totalCount),
+                        animated: true
+                    )
+                }
             }
             
             setWidgetData(
                 doneCount: doneCount,
                 totalCount: totalCount,
-                imageName: "\(Rookie.todayRookie)_"
+                imageName: level.imageName
             )
         }
         

@@ -41,6 +41,9 @@ final class DiaryViewController: UIViewController {
     func setCalendar() {
         self.view.addSubview(calendar)
         calendar = {
+            calendar.backgroundColor = #colorLiteral(red: 0.9646689296, green: 0.9683507085, blue: 0.8333314061, alpha: 1)
+            
+            calendar.layer.cornerRadius = 20
             calendar.translatesAutoresizingMaskIntoConstraints = false
             calendar.dataSource = self
             calendar.delegate = self
@@ -53,10 +56,10 @@ final class DiaryViewController: UIViewController {
             
             calendar.scope = .week
             calendar.appearance.titleDefaultColor = UIColor.label
-            calendar.appearance.headerTitleColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
-            calendar.appearance.weekdayTextColor = #colorLiteral(red: 0.7111719847, green: 0.6382898092, blue: 0.442435503, alpha: 1)
+            calendar.appearance.headerTitleColor = #colorLiteral(red: 0.6084107161, green: 0.5521717668, blue: 0.3833938539, alpha: 1)
+            calendar.appearance.weekdayTextColor = #colorLiteral(red: 0.6084107161, green: 0.5521717668, blue: 0.3833938539, alpha: 1)
             calendar.appearance.todayColor = #colorLiteral(red: 0.9856333137, green: 0.4833418727, blue: 0.3519303203, alpha: 0.85)
-            calendar.appearance.selectionColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+            calendar.appearance.selectionColor = #colorLiteral(red: 0.8960625529, green: 0.7841166258, blue: 0.5069380999, alpha: 1)
             calendar.appearance.eventDefaultColor = #colorLiteral(red: 0.9856333137, green: 0.4833418727, blue: 0.3519303203, alpha: 0.85)
             calendar.appearance.eventSelectionColor = #colorLiteral(red: 0.9856333137, green: 0.4833418727, blue: 0.3519303203, alpha: 0.85)
             
@@ -91,17 +94,17 @@ final class DiaryViewController: UIViewController {
             return defaultLabel
         }()
         
-        var gradientLineImage = UIImageView()
-        self.view.addSubview(gradientLineImage)
-        gradientLineImage = {
-            gradientLineImage.translatesAutoresizingMaskIntoConstraints = false
-            gradientLineImage.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
-            gradientLineImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-            gradientLineImage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-            gradientLineImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            gradientLineImage.image = #imageLiteral(resourceName: "gradient")
-            return gradientLineImage
-        }()
+//        var gradientLineImage = UIImageView()
+//        self.view.addSubview(gradientLineImage)
+//        gradientLineImage = {
+//            gradientLineImage.translatesAutoresizingMaskIntoConstraints = false
+//            gradientLineImage.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
+//            gradientLineImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+//            gradientLineImage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+//            gradientLineImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//            gradientLineImage.image = #imageLiteral(resourceName: "gradient")
+//            return gradientLineImage
+//        }()
     }
     
 }
@@ -165,5 +168,5 @@ extension DiaryViewController: FSCalendarDelegate, FSCalendarDataSource {
             $0.removeFromParent()
         }
     }
-
+    
 }

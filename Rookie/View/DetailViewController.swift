@@ -90,7 +90,7 @@ final class DetailViewController: UIViewController {
             
         let level = Level.fetchLevel(total: totalCount, done: doneCount)
         detailLabel.text = level.labelText
-        detailImageView.image = level.image
+        detailImageView.image = UIImage(named: level.imageName)
             
         UIView.animate(withDuration: 1.0) {
             self.detailProgressView.setProgress(
