@@ -157,37 +157,37 @@ final class ViewController: BaseViewController {
     }
     
     private func updateRookie() {
+        guard currentSegmentedControl == .today else { return }
+        
         let totalCount = todoTasks.count
         let doneCount = todoDoneTasks.count
         
-        if currentSegmentedControl == .today {
-            let level: Level = Level.fetchLevel(total: totalCount, done: doneCount)
-            
-            todayLabel.text = level.labelText
-            todayImageView.image = UIImage(named: level.imageName)
-            
-            if doneCount == 0 || totalCount == 0 {
+        let level: Level = Level.fetchLevel(total: totalCount, done: doneCount)
+        
+        todayLabel.text = level.labelText
+        todayImageView.image = UIImage(named: level.imageName)
+        
+        if doneCount == 0 || totalCount == 0 {
+            self.todayProgressView.setProgress(
+                .zero,
+                animated: true
+            )
+        } else {
+            UIView.animate(withDuration: 1.0) {
                 self.todayProgressView.setProgress(
-                    .zero,
+                    Float(doneCount) / Float(totalCount),
                     animated: true
                 )
-            } else {
-                UIView.animate(withDuration: 1.0) {
-                    self.todayProgressView.setProgress(
-                        Float(doneCount) / Float(totalCount),
-                        animated: true
-                    )
-                }
             }
-            
-            setWidgetData(
-                doneCount: doneCount,
-                totalCount: totalCount,
-                imageName: level.imageName
-            )
         }
         
         todayProgressLabel.text = "\(doneCount)/\(totalCount)"
+        
+        setWidgetData(
+            doneCount: doneCount,
+            totalCount: totalCount,
+            imageName: level.imageName
+        )
     }
     
     private func setWidgetData(

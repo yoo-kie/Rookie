@@ -255,7 +255,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Xk-VQ-eHq">
-                                        <rect key="frame" x="354" y="467" width="40" height="40"/>
+                                        <rect key="frame" x="354" y="472" width="40" height="40"/>
                                         <color key="backgroundColor" red="0.92179568527918776" green="0.511057465869314" blue="0.38634280997275705" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1Xk-VQ-eHq" secondAttribute="height" multiplier="1:1" id="AoT-jj-u9P"/>
@@ -270,7 +270,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ayj-fP-JQR">
-                                        <rect key="frame" x="41.5" y="30" width="331" height="397"/>
+                                        <rect key="frame" x="41.5" y="30" width="331" height="402"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할 일 다 하고 맛있는 거 먹을거야-!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQT-55-7md">
                                                 <rect key="frame" x="83.5" y="0.0" width="164" height="30"/>
@@ -288,17 +288,17 @@
                                                 </constraints>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1VQ-Uo-RD3">
-                                                <rect key="frame" x="0.0" y="371" width="331" height="26"/>
+                                                <rect key="frame" x="0.0" y="371" width="331" height="31"/>
                                                 <subviews>
                                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2Om-CN-fQF">
-                                                        <rect key="frame" x="3" y="8" width="281.5" height="10"/>
+                                                        <rect key="frame" x="3" y="10.5" width="281.5" height="10"/>
                                                         <color key="tintColor" red="1" green="0.91051351300000005" blue="0.54187224639999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="10" id="Fz2-q4-bWM"/>
                                                         </constraints>
                                                     </progressView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2/3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2v5-KF-eqG">
-                                                        <rect key="frame" x="294.5" y="6.5" width="35.5" height="13.5"/>
+                                                        <rect key="frame" x="294.5" y="9" width="35.5" height="13.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -320,7 +320,7 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- 일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Bg-H3-D8a">
-                                        <rect key="frame" x="325" y="478" width="24" height="18"/>
+                                        <rect key="frame" x="325" y="483" width="24" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <color key="textColor" systemColor="systemGray2Color"/>
                                         <nil key="highlightedColor"/>
@@ -330,7 +330,7 @@
                                 <constraints>
                                     <constraint firstItem="ITj-76-YnK" firstAttribute="leading" secondItem="6Kk-35-Stl" secondAttribute="leading" constant="20" id="2Jr-bt-gzX"/>
                                     <constraint firstItem="ayj-fP-JQR" firstAttribute="top" secondItem="6Kk-35-Stl" secondAttribute="top" constant="30" id="5l8-hu-uBR"/>
-                                    <constraint firstItem="ITj-76-YnK" firstAttribute="top" secondItem="1Xk-VQ-eHq" secondAttribute="bottom" constant="10" id="6CZ-Ou-Sa5"/>
+                                    <constraint firstItem="ITj-76-YnK" firstAttribute="top" secondItem="1Xk-VQ-eHq" secondAttribute="bottom" constant="5" id="6CZ-Ou-Sa5"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="AG8-on-q7e" secondAttribute="trailing" constant="5" id="9iR-3I-3Mw"/>
                                     <constraint firstItem="1Xk-VQ-eHq" firstAttribute="leading" secondItem="6Bg-H3-D8a" secondAttribute="trailing" constant="5" id="ATe-i5-CYs"/>
                                     <constraint firstAttribute="trailing" secondItem="1Xk-VQ-eHq" secondAttribute="trailing" constant="20" id="Bk4-e1-gil"/>
